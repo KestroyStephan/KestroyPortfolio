@@ -12,7 +12,7 @@ export function About() {
           <div className="relative group">
             <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/50 via-violet-500/50 to-pink-500/50 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity duration-500" />
             <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-cyan-500/30">
-              <img src="/src/assets/kestroy.png" alt="Kestroy " className="w-full h-full object-cover" />
+              <img src="/src/assets/kestroy.png" alt="Kestroy" className="w-full h-full object-cover" />
             </div>
           </div>
 
