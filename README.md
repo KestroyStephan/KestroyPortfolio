@@ -1,2 +1,11 @@
-# KestroyPortfolio
-A fully responsive and customizable personal portfolio website built with React and Tailwind CSS. Features sections for About Me, Skills, Projects, Experience, and Contact with smooth animations and clean component-based structure. Ideal for developers, engineers, and students looking to showcase their work professionally.
+
+  # AI Engineer Portfolio Website (Community)
+
+  This is a code bundle for AI Engineer Portfolio Website (Community). The original project is available at https://www.figma.com/design/ioJd6R2QjIqhHSr5zo7pcw/AI-Engineer-Portfolio-Website--Community-.
+
+  ## Running the code
+
+  Run `npm i` to install the dependencies.
+
+  Run `npm run dev` to start the development server.
+  
