@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, Send, Github, Linkedin, Phone } from 'lucide-react';
 import { Button } from './ui/button';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -61,7 +61,7 @@ export function Contact() {
               </a>
 
               <a
-                href="tel:+942036472"
+                href="tel:+94702036472"
                 className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-violet-500/10 to-pink-500/10 border border-violet-500/20 hover:border-violet-500/40 transition-all duration-300 group"
               >
                 <div className="p-3 rounded-lg bg-gradient-to-r from-violet-500 to-pink-500 group-hover:scale-110 transition-transform duration-300">
