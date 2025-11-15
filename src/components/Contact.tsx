@@ -69,7 +69,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Phone</p>
-                  <p className="text-violet-400">+94 70 20 364 72</p>
+                  <p className="text-violet-400">+94 70 20 36 472</p>
                 </div>
               </a>
 
@@ -84,7 +84,7 @@ export function Contact() {
                   <span>GitHub</span>
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/your-profile"
+                  href="https://www.linkedin.com/in/kestroy-stephan/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 p-4 rounded-xl bg-gradient-to-r from-violet-500/10 to-pink-500/10 border border-violet-500/20 hover:border-violet-500/40 transition-all duration-300"

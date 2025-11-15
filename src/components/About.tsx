@@ -1,7 +1,5 @@
 import { Code2, Sparkles, Rocket, GraduationCap, Users, Award } from 'lucide-react';
-// Note: Make sure the kestroy.png file exists in src/assets/ folder
-// import kestroyImg from '../assets/kestroy.png';
-const kestroyImg = 'https://via.placeholder.com/400'; // Placeholder until image is added
+import kestroyImg from '../assets/kestroy.png';
 
 export function About() {
   return (
