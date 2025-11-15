@@ -55,7 +55,7 @@ export function Hero() {
             <Github className="w-6 h-6" />
           </a>
           <a
-            href="https://www.linkedin.com/in/your-profile"
+            href="https://www.linkedin.com/in/kestroy-stephan/"
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-full bg-gradient-to-br from-cyan-500/20 to-violet-500/20 hover:from-cyan-500/30 hover:to-violet-500/30 transition-all duration-300 hover:scale-110 border border-cyan-500/30"
@@ -63,7 +63,7 @@ export function Hero() {
             <Linkedin className="w-6 h-6" />
           </a>
           <a
-            href="mailto:contact@example.com"
+            href="stephankestroy@gmail.com"
             className="p-3 rounded-full bg-gradient-to-br from-cyan-500/20 to-violet-500/20 hover:from-cyan-500/30 hover:to-violet-500/30 transition-all duration-300 hover:scale-110 border border-cyan-500/30"
           >
             <Mail className="w-6 h-6" />
