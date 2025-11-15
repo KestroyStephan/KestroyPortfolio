@@ -41,7 +41,7 @@ export function Hero() {
             AI/ML Engineer · Front End Developer · QA · UI/UX
           </h2>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            BSc IT Undergraduate A | Passionate about AI, Machine Learning & User-Centered Design
+            BSc IT Undergraduate  | Passionate about AI, Machine Learning & User-Centered Design
           </p>
         </div>
 

@@ -69,7 +69,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Phone</p>
-                  <p className="text-violet-400">+94 20 364 72</p>
+                  <p className="text-violet-400">+94 70 20 364 72</p>
                 </div>
               </a>
 
