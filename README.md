@@ -48,9 +48,7 @@ npm run build
 ### Deploy to Vercel
 vercel deploy
 
-### Deploy to Netlify
-npm run build
-netlify deploy
+
 
 ### Deploy to GitHub Pages
 npm run build
