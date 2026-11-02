@@ -1,8 +1,8 @@
 import { useEffect, useRef, type ReactNode, type PointerEvent } from 'react';
 
 // Fades children up when they scroll into view.
-export function Reveal({ children, className = '', delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
+export function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }: { children: ReactNode; className?: string; delay?: number; as?: 'div' | 'li' }) {
+  const ref = useRef<HTMLDivElement & HTMLLIElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -14,57 +14,39 @@ export function Reveal({ children, className = '', delay = 0 }: { children: Reac
           observer.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <Tag ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
-    </div>
+    </Tag>
   );
 }
 
-// Card that tilts in 3D toward the pointer, with a soft glare.
-export function Tilt({ children, className = '', max = 10 }: { children: ReactNode; className?: string; max?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const onMove = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== 'mouse' || !ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width;
-    const py = (e.clientY - r.top) / r.height;
-    ref.current.style.setProperty('--ry', `${(px - 0.5) * max * 2}deg`);
-    ref.current.style.setProperty('--rx', `${(0.5 - py) * max * 2}deg`);
-    ref.current.style.setProperty('--gx', `${px * 100}%`);
-    ref.current.style.setProperty('--gy', `${py * 100}%`);
-  };
-
-  const onLeave = () => {
-    ref.current?.style.setProperty('--rx', '0deg');
-    ref.current?.style.setProperty('--ry', '0deg');
-  };
-
-  return (
-    <div ref={ref} onPointerMove={onMove} onPointerLeave={onLeave} className={`tilt group relative ${className}`}>
-      <div className="tilt-glare pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      {children}
-    </div>
-  );
+// Moves the .card-glow highlight to follow the pointer.
+export function trackGlow(e: PointerEvent<HTMLElement>) {
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+  el.style.setProperty('--my', `${e.clientY - r.top}px`);
 }
 
-export function SectionHeading({ index, tag, title, intro }: { index: string; tag: string; title: ReactNode; intro?: string }) {
+export function SectionHeading({ index, eyebrow, title, intro }: { index: string; eyebrow: string; title: ReactNode; intro?: ReactNode }) {
   return (
-    <Reveal className="mb-14 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+    <Reveal className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[1.4fr_1fr] lg:items-end">
       <div>
-        <p className="label mb-5">
-          <span className="text-[var(--color-acid)]">{index}</span> // {tag}
+        <p className="eyebrow mb-5 flex items-center gap-3">
+          <span className="text-[var(--color-accent-soft)]">{index}</span>
+          <span className="h-px w-8 bg-[var(--color-line-strong)]" />
+          {eyebrow}
         </p>
-        <h2 className="text-5xl font-light leading-[0.95] tracking-tight md:text-7xl">{title}</h2>
+        <h2 className="text-4xl font-medium leading-[1.02] md:text-6xl">{title}</h2>
       </div>
-      {intro && <p className="max-w-sm text-base leading-relaxed text-white/55 md:text-right">{intro}</p>}
+      {intro && <p className="max-w-md text-base leading-relaxed lg:justify-self-end">{intro}</p>}
     </Reveal>
   );
 }
