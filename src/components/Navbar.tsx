@@ -1,66 +1,95 @@
-import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 const links = [
-  { href: '#model', label: 'Model' },
-  { href: '#log', label: 'Log' },
-  { href: '#experiments', label: 'Experiments' },
-  { href: '#tests', label: 'Tests' },
-  { href: '#data', label: 'Data' },
+  { id: 'work', label: 'Work' },
+  { id: 'case-studies', label: 'Case studies' },
+  { id: 'expertise', label: 'Expertise' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'about', label: 'About' },
 ];
 
 export function Navbar() {
+  const [active, setActive] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [pill, setPill] = useState({ left: 0, width: 0 });
+  const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+
+    // The active link is whichever section crosses the upper third of the viewport.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(e.target.id));
+      },
+      { rootMargin: '-35% 0px -60% 0px' },
+    );
+    ['top', ...links.map((l) => l.id), 'github', 'contact'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
   }, []);
 
+  useLayoutEffect(() => {
+    const el = listRef.current?.querySelector<HTMLAnchorElement>(`a[href="#${active}"]`);
+    setPill((p) => (el ? { left: el.offsetLeft, width: el.offsetWidth } : { ...p, width: 0 }));
+  }, [active]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+  }, [open]);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-5">
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-3 md:px-6">
       <nav
-        aria-label="Main"
-        className={`mx-auto flex max-w-7xl items-center justify-between border px-4 py-2.5 transition-all duration-300 ${
-          scrolled ? 'border-[var(--color-line)] bg-[var(--color-ink)]/80 backdrop-blur-xl' : 'border-transparent'
+        aria-label="Primary"
+        className={`mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full border px-3 pl-5 transition-colors duration-300 ${
+          scrolled || open ? 'border-[var(--color-line)] bg-[var(--color-bg)]/80 backdrop-blur-xl' : 'border-transparent'
         }`}
       >
-        <a href="#top" className="flex items-center gap-2.5">
-          <span className="grid h-7 w-7 place-items-center bg-[var(--color-acid)] font-mono text-xs font-bold text-[var(--color-ink)]">KS</span>
-          <span className="font-mono text-sm font-bold tracking-tight text-[var(--color-paper)]">KESTROY.LAB</span>
-          <span className="hidden border border-[var(--color-line)] px-1.5 py-0.5 font-mono text-[10px] text-white/50 sm:inline">v1.0</span>
+        <a href="#top" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--color-text)]" onClick={() => setOpen(false)}>
+          <span className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--color-text)] text-[11px] font-bold text-[var(--color-bg)]">KS</span>
+          Kestroy Stephan
         </a>
 
-        <ul className="hidden items-center md:flex">
-          {links.map((l, i) => (
-            <li key={l.href}>
-              <a href={l.href} className="group px-3 py-2 font-mono text-xs uppercase tracking-wider text-white/60 transition-colors hover:text-[var(--color-paper)]">
-                <span className="text-[var(--color-acid)]/70 group-hover:text-[var(--color-acid)]">0{i + 1}</span> {l.label}
+        <ul ref={listRef} className="relative hidden items-center lg:flex">
+          <span
+            aria-hidden
+            className="absolute inset-y-0 rounded-full bg-white/[0.06] transition-all duration-300 ease-out"
+            style={{ left: pill.left, width: pill.width, opacity: pill.width ? 1 : 0 }}
+          />
+          {links.map((l) => (
+            <li key={l.id}>
+              <a
+                href={`#${l.id}`}
+                aria-current={active === l.id ? 'true' : undefined}
+                className={`relative block rounded-full px-4 py-2 text-sm transition-colors ${active === l.id ? 'text-[var(--color-text)]' : 'hover:text-[var(--color-text)]'}`}
+              >
+                {l.label}
               </a>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-2">
-          <span className="hidden items-center gap-2 border border-[var(--color-acid)]/30 bg-[var(--color-acid)]/5 px-2.5 py-1 font-mono text-[11px] text-[var(--color-acid)] lg:flex">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-acid)]" />
-            status: available
-          </span>
-          <a
-            href="#contact"
-            className="hidden bg-[var(--color-paper)] px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider text-[var(--color-ink)] transition-colors hover:bg-[var(--color-acid)] sm:inline-block"
-          >
-            Hire me
+          <a href="#contact" className="btn btn-primary hidden h-9 px-4 text-[13px] sm:inline-flex">
+            Let’s talk <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
           <button
             type="button"
+            className="grid h-9 w-9 place-items-center rounded-full text-[var(--color-text)] lg:hidden"
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
-            onClick={() => setOpen(!open)}
-            className="p-2 text-[var(--color-paper)] md:hidden"
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((o) => !o)}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -68,15 +97,21 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <ul className="panel mx-auto mt-2 max-w-7xl p-2 md:hidden">
-          {[...links, { href: '#contact', label: 'Contact' }].map((l, i) => (
-            <li key={l.href}>
-              <a href={l.href} onClick={() => setOpen(false)} className="block px-4 py-3 font-mono text-sm uppercase tracking-wider text-white/80">
-                <span className="text-[var(--color-acid)]">0{i + 1}</span> {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div id="mobile-menu" className="mx-auto mt-2 max-w-6xl rounded-3xl border border-[var(--color-line)] bg-[var(--color-bg)]/95 p-3 backdrop-blur-xl lg:hidden">
+          <ul>
+            {[...links, { id: 'contact', label: 'Contact' }].map((l) => (
+              <li key={l.id}>
+                <a
+                  href={`#${l.id}`}
+                  onClick={() => setOpen(false)}
+                  className={`block rounded-2xl px-4 py-3.5 text-lg ${active === l.id ? 'bg-white/[0.05] text-[var(--color-text)]' : ''}`}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </header>
   );

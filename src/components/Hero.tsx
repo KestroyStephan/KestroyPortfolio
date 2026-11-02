@@ -1,159 +1,99 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { Github, Linkedin, Mail, ArrowUpRight, FileDown } from 'lucide-react';
-import portrait from '../assets/kestroy-cutout.webp';
-import { profile } from '../data';
-
-const HeroScene = lazy(() => import('./HeroScene'));
-
-function useTypedRoles(roles: string[]) {
-  const [text, setText] = useState('');
-  useEffect(() => {
-    let role = 0;
-    let i = 0;
-    let deleting = false;
-    let timer: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      const word = roles[role];
-      i += deleting ? -1 : 1;
-      setText(word.slice(0, i));
-      let wait = deleting ? 35 : 70;
-      if (!deleting && i === word.length) {
-        deleting = true;
-        wait = 1800;
-      } else if (deleting && i === 0) {
-        deleting = false;
-        role = (role + 1) % roles.length;
-        wait = 300;
-      }
-      timer = setTimeout(tick, wait);
-    };
-    timer = setTimeout(tick, 600);
-    return () => clearTimeout(timer);
-  }, [roles]);
-  return text;
-}
+import { ArrowDown, ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
+import { heroStats, profile } from '../data';
+import portrait from '../assets/kestroy-portrait.webp';
 
 export function Hero() {
-  const [reveal, setReveal] = useState(false);
-  const [show3D, setShow3D] = useState(false);
-  const typed = useTypedRoles(profile.roles);
-
-  useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const c = document.createElement('canvas');
-    if (!reduced && (c.getContext('webgl2') || c.getContext('webgl'))) setShow3D(true);
-  }, []);
-
-  const lines = reveal ? ['AI / ML', 'ENGINEER'] : ['KESTROY', 'STEPHAN'];
-
   return (
-    <section id="top" className="relative overflow-hidden lg:min-h-[100svh]">
-      <div aria-hidden className="lab-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[70vh] w-[70vh] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[var(--color-acid)]/10 blur-[140px]" />
-      {show3D && (
-        <div aria-hidden className="absolute inset-0">
-          <Suspense fallback={null}>
-            <HeroScene />
-          </Suspense>
-        </div>
-      )}
+    <section id="top" className="relative px-4 pb-16 pt-28 md:px-6 md:pt-36">
+      <div aria-hidden className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[90vh]" />
+      <div aria-hidden className="pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full bg-[var(--color-accent)]/[0.12] blur-[140px]" />
 
-      {/* Poster name. The real name stays in the accessible h1 even while the visual text swaps. */}
-      <h1 className="sr-only">Kestroy Stephan — AI/ML Engineer & Front-End Developer</h1>
-      <div aria-hidden className="pointer-events-none relative z-10 flex flex-col items-center pt-24 md:pt-20">
-        {lines.map((line) => (
-          <span
-            key={line}
-            className="block select-none font-poster text-[clamp(4.5rem,19vw,17rem)] font-black uppercase leading-[0.82] tracking-tight text-[var(--color-paper)] transition-all duration-500"
-          >
-            {line}
-          </span>
-        ))}
-      </div>
+      <div className="relative mx-auto grid max-w-6xl gap-14 lg:grid-cols-12 lg:gap-10">
+        <div className="min-w-0 lg:col-span-7 lg:pt-6">
+          <p className="chip mb-8 max-w-full animate-[fadeUp_.7s_ease-out_both] whitespace-normal">
+            <span className="status-dot shrink-0" /> {profile.status}
+          </p>
 
-      {/* Portrait overlapping the lower half of the name */}
-      <div className="relative z-20 -mt-[10vw] flex justify-center lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0">
-        <button
-          type="button"
-          onMouseEnter={() => setReveal(true)}
-          onMouseLeave={() => setReveal(false)}
-          onFocus={() => setReveal(true)}
-          onBlur={() => setReveal(false)}
-          onClick={() => setReveal((r) => !r)}
-          aria-label="Reveal Kestroy's role"
-          className="group relative block"
-        >
-          <img
-            src={portrait}
-            alt="Kestroy Stephan"
-            width={720}
-            height={795}
-            fetchPriority="high"
-            className="h-[46vh] max-h-[620px] w-auto object-contain object-bottom [mask-image:linear-gradient(to_bottom,black_75%,transparent)] transition-[filter] duration-500 lg:h-[64vh] group-hover:drop-shadow-[0_0_40px_rgba(212,255,58,0.25)]"
-          />
-          <span className="label absolute bottom-6 left-1/2 hidden -translate-x-1/2 whitespace-nowrap lg:block border border-[var(--color-line)] bg-[var(--color-ink)]/80 px-2 py-1 backdrop-blur">
-            ◎ hover: run inference
-          </span>
-        </button>
-      </div>
+          <h1 className="animate-[fadeUp_.8s_.08s_ease-out_both] text-[clamp(2.75rem,7.2vw,5.75rem)] font-medium leading-[0.98]">
+            Building <span className="serif accent-text">Intelligent</span>
+            <br />
+            Digital Experiences.
+          </h1>
 
-      {/* Left: live "prediction" terminal */}
-      <div className="relative z-30 mx-auto -mt-10 grid max-w-7xl gap-4 px-4 pb-12 sm:grid-cols-2 lg:absolute lg:inset-x-0 lg:bottom-10 lg:mt-0 lg:px-6 lg:pb-0">
-        <div className="panel ticks w-full max-w-sm bg-[var(--color-ink)]/85 p-5 backdrop-blur-md">
-          <p className="label mb-3">// kestroy.predict(&quot;next_role&quot;)</p>
-          <pre className="whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-white/80">
-            <span className="text-white/40">{'{'}</span>
-            {'\n  '}role: <span className="text-[var(--color-acid)]">"{typed}<span className="animate-blink">▌</span>"</span>,
-            {'\n  '}remote: <span className="text-[var(--color-signal)]">true</span>,
-            {'\n  '}relocate: <span className="text-[var(--color-signal)]">true</span>,
-            {'\n  '}degree: <span className="text-[var(--color-warn)]">"BSc (Hons) IT"</span>
-            {'\n'}
-            <span className="text-white/40">{'}'}</span>
-          </pre>
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            {[
-              { href: profile.github, label: 'GitHub', Icon: Github },
-              { href: profile.linkedin, label: 'LinkedIn', Icon: Linkedin },
-              { href: `mailto:${profile.email}`, label: 'Email', Icon: Mail },
-            ].map(({ href, label, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                target={href.startsWith('http') ? '_blank' : undefined}
-                rel="noopener noreferrer"
-                className="grid h-9 w-9 place-items-center border border-[var(--color-line)] text-white/70 transition-colors hover:border-[var(--color-acid)] hover:text-[var(--color-acid)]"
-              >
-                <Icon className="h-4 w-4" />
+          <p className="mt-7 animate-[fadeUp_.8s_.16s_ease-out_both] font-mono text-xs uppercase leading-relaxed tracking-[0.12em] text-[var(--color-text)]/70">
+            {profile.title}
+          </p>
+
+          <p className="mt-5 max-w-xl animate-[fadeUp_.8s_.22s_ease-out_both] text-lg leading-relaxed">
+            I design and develop scalable web applications, intelligent AI-powered solutions, and modern digital products that solve real-world problems.
+          </p>
+
+          <div className="mt-9 flex animate-[fadeUp_.8s_.3s_ease-out_both] flex-wrap items-center gap-3">
+            <a href="#work" className="btn btn-primary">
+              View my work <ArrowRight className="h-4 w-4" />
+            </a>
+            {profile.cv ? (
+              <a href={profile.cv} download className="btn btn-ghost">
+                Download CV <Download className="h-4 w-4" />
               </a>
-            ))}
-            {profile.cv && (
-              <a href={profile.cv} download className="tag h-9 hover:border-[var(--color-acid)] hover:text-[var(--color-acid)]">
-                <FileDown className="h-3.5 w-3.5" /> CV
+            ) : (
+              <a href={`mailto:${profile.email}?subject=${encodeURIComponent('CV request')}`} className="btn btn-ghost">
+                Request CV <Mail className="h-4 w-4" />
               </a>
             )}
+            <span className="mx-1 hidden h-6 w-px bg-[var(--color-line-strong)] sm:block" />
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="GitHub profile">
+              <Github className="h-4 w-4" />
+            </a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="LinkedIn profile">
+              <Linkedin className="h-4 w-4" />
+            </a>
+            <a href={`mailto:${profile.email}`} className="icon-btn" aria-label={`Email ${profile.email}`}>
+              <Mail className="h-4 w-4" />
+            </a>
           </div>
         </div>
 
-        {/* Right: pitch + CTA */}
-        <div className="panel w-full max-w-sm justify-self-end bg-[var(--color-ink)]/85 p-5 backdrop-blur-md sm:text-right">
-          <p className="label mb-3">// specimen · {profile.location}</p>
-          <p className="font-display text-lg leading-snug text-[var(--color-paper)]">
-            IT graduate turning data and ideas into intelligent, well-tested products people enjoy using.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2 sm:justify-end">
-            <a href="#experiments" className="tag h-10 px-4 hover:border-white/30">
-              View experiments
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex h-10 items-center gap-2 bg-[var(--color-acid)] px-4 font-mono text-xs font-bold uppercase tracking-wider text-[var(--color-ink)] transition-transform hover:-translate-y-0.5"
-            >
-              Let's talk <ArrowUpRight className="h-4 w-4" />
-            </a>
+        <div className="relative mx-auto w-full max-w-[420px] animate-[fadeUp_1s_.2s_ease-out_both] self-start lg:col-span-5 lg:mr-0">
+          <div aria-hidden className="absolute -inset-3 rounded-[32px] border border-[var(--color-line)]" />
+          <figure className="relative overflow-hidden rounded-[26px] bg-[var(--color-surface)]">
+            <img
+              src={portrait}
+              alt="Portrait of Kestroy Stephan in a black suit"
+              width={800}
+              height={1000}
+              fetchPriority="high"
+              className="aspect-[4/5] w-full object-cover"
+            />
+            <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--color-bg)] via-[var(--color-bg)]/50 to-transparent" />
+            <figcaption className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-lg font-medium text-[var(--color-text)]">Kestroy Stephan</p>
+                <p className="text-sm">Software Engineer · Xaltrix</p>
+              </div>
+              <p className="eyebrow hidden text-right sm:block">{profile.location}</p>
+            </figcaption>
+          </figure>
+          <div className="absolute -left-4 top-8 hidden rounded-2xl border border-[var(--color-line)] bg-[var(--color-bg)]/85 px-4 py-3 backdrop-blur-md sm:block lg:-left-10">
+            <p className="eyebrow mb-1">Now building</p>
+            <p className="text-sm text-[var(--color-text)]">AgenticHR · Aura</p>
           </div>
         </div>
       </div>
+
+      <dl className="relative mx-auto mt-16 grid max-w-6xl grid-cols-2 border-y border-[var(--color-line)] md:mt-20 md:grid-cols-4">
+        {heroStats.map((s, i) => (
+          <div key={s.label} className={`px-1 py-6 md:px-6 ${i % 2 ? 'pl-5 md:pl-6' : ''} ${i ? 'md:border-l md:border-[var(--color-line)]' : ''} ${i % 2 ? 'border-l border-[var(--color-line)]' : ''} ${i > 1 ? 'border-t border-[var(--color-line)] md:border-t-0' : ''}`}>
+            <dt className="sr-only">{s.label}</dt>
+            <dd className="text-3xl font-medium tracking-tight text-[var(--color-text)] md:text-4xl">{s.value}</dd>
+            <dd className="mt-1 text-sm">{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <a href="#work" className="relative mx-auto mt-10 hidden w-fit items-center gap-2 text-xs md:flex" aria-label="Scroll to selected work">
+        <ArrowDown className="h-3.5 w-3.5" /> Scroll
+      </a>
     </section>
   );
 }
