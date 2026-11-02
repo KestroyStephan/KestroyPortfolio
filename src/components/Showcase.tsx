@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
-import type { Shot } from '../data';
+import type { Screen as PhoneScreen, Shot } from '../data';
 
 // Window chrome around a screenshot, so web screens read as a product rather than a loose image.
 export function BrowserFrame({ shot, className = '', fit = 'cover' }: { shot: Shot; className?: string; fit?: 'cover' | 'contain' }) {
@@ -13,6 +13,118 @@ export function BrowserFrame({ shot, className = '', fit = 'cover' }: { shot: Sh
         <span className="w-8" />
       </div>
       <img src={shot.src} alt={shot.alt} loading="lazy" className={`block aspect-[16/9.4] w-full bg-white ${fit === 'cover' ? 'object-cover object-left-top' : 'object-contain'}`} />
+    </div>
+  );
+}
+
+// A phone drawn in CSS around a flat app screen.
+export function Phone({ screen, className = '', eager = false }: { screen: PhoneScreen; className?: string; eager?: boolean }) {
+  return (
+    <div className={`rounded-[2.2rem] bg-gradient-to-b from-[#2a2e40] via-[#12141d] to-[#1c1f2c] p-[7px] shadow-[0_40px_80px_-28px_rgba(0,0,0,0.95),inset_0_0_0_1px_rgba(255,255,255,0.12)] ${className}`}>
+      <div className="relative overflow-hidden rounded-[1.75rem] bg-white">
+        <img src={screen.src} alt={screen.alt} loading={eager ? 'eager' : 'lazy'} draggable={false} className="block aspect-[9/19.5] w-full select-none object-cover object-top" />
+        <span aria-hidden className="absolute left-1/2 top-2 h-[14px] w-[30%] -translate-x-1/2 rounded-full bg-black/90" />
+        <span aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.18),transparent_32%)]" />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Cover-flow of phones in 3D: the active screen faces you and the neighbours turn away on either side.
+ * Tabs, clicks on a side phone and swipes all change the screen; it advances on its own while in view.
+ */
+export function PhoneCarousel({ screens, accent, name }: { screens: PhoneScreen[]; accent: string; name: string }) {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const stage = useRef<HTMLDivElement>(null);
+  const startX = useRef<number | null>(null);
+  const n = screens.length;
+  const go = (k: number) => setActive(((k % n) + n) % n);
+
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (paused || !visible || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = setTimeout(() => setActive((a) => (a + 1) % n), 3800);
+    return () => clearTimeout(t);
+  }, [active, paused, visible, n]);
+
+  return (
+    <div style={{ '--accent': accent } as CSSProperties}>
+      <div
+        ref={stage}
+        onPointerEnter={(e) => e.pointerType === 'mouse' && setPaused(true)}
+        onPointerLeave={() => setPaused(false)}
+        onPointerDown={(e) => (startX.current = e.clientX)}
+        onPointerUp={(e) => {
+          if (startX.current === null) return;
+          const dx = e.clientX - startX.current;
+          startX.current = null;
+          if (Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1));
+        }}
+        className="relative h-[470px] touch-pan-y overflow-hidden rounded-[24px] border border-[var(--color-line)] bg-[var(--color-surface)] sm:h-[540px]"
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(60% 55% at 50% 45%, ${accent}33, transparent 70%)` }} />
+        <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-50" />
+        <div aria-hidden className="absolute bottom-8 left-1/2 h-8 w-[46%] -translate-x-1/2 rounded-[50%] bg-black/70 blur-xl" />
+
+        <div className="absolute inset-0 [perspective:1600px]">
+          {screens.map((s, k) => {
+            let off = k - active;
+            if (off > n / 2) off -= n;
+            if (off < -n / 2) off += n;
+            const d = Math.abs(off);
+            return (
+              <button
+                key={s.label}
+                type="button"
+                tabIndex={-1}
+                aria-hidden={off !== 0}
+                onClick={() => go(k)}
+                className="absolute left-1/2 top-1/2 w-[190px] cursor-pointer transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)] sm:w-[218px]"
+                style={{
+                  transform: `translate(-50%, -50%) translateX(${off * (d === 1 ? 92 : 80)}%) translateZ(${-d * 140}px) rotateY(${off * -30}deg)`,
+                  opacity: d > 2 ? 0 : d === 2 ? 0.35 : 1,
+                  filter: off === 0 ? 'none' : `brightness(${d === 1 ? 0.7 : 0.45})`,
+                  zIndex: 10 - d,
+                  pointerEvents: d > 2 ? 'none' : 'auto',
+                }}
+              >
+                <Phone screen={s} eager={d <= 1} />
+              </button>
+            );
+          })}
+        </div>
+
+        <span className="chip absolute left-4 top-4 z-20 border-white/15 bg-black/50 backdrop-blur">Mobile app · {screens[active].label}</span>
+      </div>
+
+      <div role="tablist" aria-label={`${name} app screens`} className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
+        {screens.map((s, k) => (
+          <button
+            key={s.label}
+            role="tab"
+            type="button"
+            aria-selected={k === active}
+            aria-label={`${s.label}: ${s.alt}`}
+            onClick={() => go(k)}
+            className={`relative shrink-0 overflow-hidden rounded-full border px-3.5 py-1.5 text-xs transition-colors ${
+              k === active ? 'border-[var(--color-line-strong)] text-[var(--color-text)]' : 'border-[var(--color-line)] hover:text-[var(--color-text)]'
+            }`}
+          >
+            {k === active && !paused && visible && <span aria-hidden key={active} className="absolute inset-y-0 left-0 animate-[progress_3.8s_linear_forwards] bg-white/[0.07]" />}
+            <span className="relative">{s.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -32,7 +144,7 @@ function Screen({ shot }: { shot: Shot }) {
  * Interactive gallery: the active screen sits on an accent-lit stage with the next one
  * layered behind it. Tabs switch screens; it advances on its own while in view.
  */
-export function Showcase({ shots, accent, name }: { shots: Shot[]; accent: string; name: string }) {
+export function Showcase({ shots, accent, name, compact = false }: { shots: Shot[]; accent: string; name: string; compact?: boolean }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -75,7 +187,7 @@ export function Showcase({ shots, accent, name }: { shots: Shot[]; accent: strin
         onPointerMove={onMove}
         onPointerEnter={() => setPaused(true)}
         onPointerLeave={onLeave}
-        className="relative overflow-hidden rounded-[24px] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 pb-6 pt-8 sm:px-8 sm:pt-12 md:px-12"
+        className={`relative overflow-hidden rounded-[24px] border border-[var(--color-line)] bg-[var(--color-surface)] ${compact ? 'px-3 pb-4 pt-6 sm:px-5 sm:pt-8' : 'px-4 pb-6 pt-8 sm:px-8 sm:pt-12 md:px-12'}`}
       >
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(70% 60% at 50% 0%, ${accent}2e, transparent 70%)` }} />
         <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-60" />

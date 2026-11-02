@@ -2,7 +2,7 @@ import { ArrowUpRight, Github, Globe } from 'lucide-react';
 import { caseStudies, ceylo, type CaseStudy } from '../data';
 import { Reveal, SectionHeading } from './effects';
 import { FlowVisual } from './FlowVisual';
-import { Showcase } from './Showcase';
+import { PhoneCarousel, Showcase } from './Showcase';
 
 function Links({ study }: { study: CaseStudy }) {
   return (
@@ -87,9 +87,18 @@ function Featured() {
         </dl>
       </Reveal>
 
-      <Reveal className="mt-4">
-        <Showcase shots={ceylo.shots!} accent={ceylo.accent} name={ceylo.name} />
-      </Reveal>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2 lg:items-start">
+        <Reveal className="min-w-0">
+          <PhoneCarousel screens={ceylo.phones!} accent={ceylo.accent} name={ceylo.name} />
+        </Reveal>
+        <Reveal delay={100} className="min-w-0">
+          <p className="eyebrow mb-3 lg:hidden">Admin portal</p>
+          <Showcase shots={ceylo.shots!} accent={ceylo.accent} name={`${ceylo.name} admin`} compact />
+          <p className="mt-4 text-sm leading-relaxed">
+            The React admin portal runs the operation: vendor and guide verification, cultural events, the AI Center for model health and a live SOS monitor on the map.
+          </p>
+        </Reveal>
+      </div>
 
       <div className="mt-14 grid gap-10 lg:grid-cols-3 lg:gap-12">
         <Reveal><Block label="The problem">{ceylo.problem}</Block></Reveal>
