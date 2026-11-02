@@ -1,112 +1,113 @@
-import { Code2, Database, Cloud, Layers, Palette, Brain } from 'lucide-react';
-import { Reveal, SectionHeading, Tilt } from './effects';
-
-const techCategories = [
-  {
-    title: 'AI & Machine Learning',
-    icon: Brain,
-    technologies: ['scikit-learn', 'pandas', 'Feature Engineering', 'Model Evaluation', 'NLP', 'Streamlit', 'Jupyter'],
-    gradient: 'from-violet-500 to-fuchsia-500',
-    span: 'md:col-span-2',
-  },
-  {
-    title: 'Languages',
-    icon: Code2,
-    technologies: ['Python', 'TypeScript', 'JavaScript', 'Java', 'SQL', 'PHP', 'HTML', 'CSS'],
-    gradient: 'from-cyan-400 to-blue-500',
-    span: '',
-  },
-  {
-    title: 'Front-End',
-    icon: Layers,
-    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Responsive UI', 'Component Design'],
-    gradient: 'from-pink-500 to-rose-500',
-    span: '',
-  },
-  {
-    title: 'Backend & Data',
-    icon: Database,
-    technologies: ['FastAPI', 'Node.js', 'REST APIs', 'MySQL', 'MongoDB', 'Firebase', 'Convex'],
-    gradient: 'from-indigo-500 to-sky-500',
-    span: '',
-  },
-  {
-    title: 'QA & DevOps',
-    icon: Cloud,
-    technologies: ['Unit Testing', 'API Testing', 'GitHub Actions', 'CI/CD', 'Docker', 'Jira', 'Git'],
-    gradient: 'from-orange-500 to-amber-400',
-    span: '',
-  },
-  {
-    title: 'Design & UX',
-    icon: Palette,
-    technologies: ['Figma', 'Adobe XD', 'Canva', 'Wireframing', 'Prototyping', 'Usability Testing'],
-    gradient: 'from-emerald-500 to-teal-400',
-    span: 'md:col-span-2 lg:col-span-1',
-  },
-];
+import { useEffect, useRef, useState } from 'react';
+import { testSuites } from '../data';
+import { SectionHeading } from './effects';
 
 const marquee = ['Python', 'React', 'Next.js', 'TypeScript', 'scikit-learn', 'FastAPI', 'Figma', 'Docker', 'MySQL', 'Firebase', 'Tailwind CSS', 'GitHub Actions'];
-
-const softSkills = ['Teamwork', 'Leadership', 'Critical Thinking', 'Problem Solving', 'Communication', 'Creativity', 'Time Management'];
+const totalTests = testSuites.reduce((n, s) => n + s.items.length, 0);
 
 export function TechStack() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(0);
+
+  // "Run" the suites one by one once the terminal scrolls into view.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setShown(testSuites.length);
+      return;
+    }
+    let timer: ReturnType<typeof setInterval>;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        timer = setInterval(() => {
+          setShown((n) => {
+            if (n + 1 >= testSuites.length) clearInterval(timer);
+            return Math.min(n + 1, testSuites.length);
+          });
+        }, 260);
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      clearInterval(timer);
+    };
+  }, []);
+
+  const done = shown === testSuites.length;
+
   return (
-    <section id="skills" className="relative px-4 py-28">
-      <div className="mx-auto max-w-6xl">
+    <section id="tests" className="relative px-4 py-28 md:px-6">
+      <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="04 · Toolkit"
+          index="04"
+          tag="test suite"
           title={
             <>
-              Skills & <span className="text-gradient">tech stack</span>
+              Skills,
+              <br />
+              <span className="text-[var(--color-acid)]">all passing</span>.
             </>
           }
-          intro="The tools I reach for to take an idea from data to a deployed, tested product."
+          intro="A QA engineer's way to list a tech stack: run it."
         />
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {techCategories.map(({ title, icon: Icon, technologies, gradient, span }, i) => (
-            <Reveal key={title} delay={(i % 3) * 80} className={span}>
-              <Tilt className="h-full rounded-3xl" max={6}>
-                <div className="glass h-full rounded-3xl p-7">
-                  <div className="tilt-pop mb-6 flex items-center gap-4">
-                    <div className={`rounded-2xl bg-gradient-to-br ${gradient} p-3 shadow-lg`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-white">{title}</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {technologies.map((t) => (
-                      <span key={t} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-slate-300 transition-colors hover:border-cyan-400/40 hover:text-cyan-200">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+        <div ref={ref} className="panel ticks overflow-hidden">
+          <div className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-3">
+            <span className="font-mono text-xs text-white/70">zsh — kestroy@lab</span>
+            <span className={`label ${done ? 'text-[var(--color-acid)]' : ''}`}>{done ? 'exit 0' : 'running…'}</span>
+          </div>
+          <div className="space-y-5 p-5 font-mono text-[13px] md:p-8">
+            <p className="text-white/70">
+              <span className="text-[var(--color-acid)]">$</span> npm test -- --suite=kestroy
+            </p>
+            {testSuites.slice(0, shown).map((s) => (
+              <div key={s.path} className="animate-[fadeIn_.3s_ease-out]">
+                <p className="flex flex-wrap items-center gap-3">
+                  <span className="bg-[var(--color-acid)] px-1.5 font-bold text-[var(--color-ink)]">PASS</span>
+                  <span className="text-white/45">{s.path}</span>
+                  <span className="text-[var(--color-paper)]">{s.name}</span>
+                </p>
+                <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1.5 pl-1 md:pl-14">
+                  {s.items.map((it) => (
+                    <span key={it} className="text-white/65">
+                      <span className="text-[var(--color-acid)]">✓</span> {it}
+                    </span>
+                  ))}
                 </div>
-              </Tilt>
-            </Reveal>
-          ))}
+              </div>
+            ))}
+            {done && (
+              <div className="border-t border-[var(--color-line)] pt-5 leading-relaxed text-white/70">
+                <p>
+                  <span className="inline-block w-28 font-bold text-white/90">Test Suites:</span>
+                  <span className="text-[var(--color-acid)]">{testSuites.length} passed</span>, {testSuites.length} total
+                </p>
+                <p>
+                  <span className="inline-block w-28 font-bold text-white/90">Tests:</span>
+                  <span className="text-[var(--color-acid)]">{totalTests} passed</span>, {totalTests} total
+                </p>
+                <p>
+                  <span className="inline-block w-28 font-bold text-white/90">Time:</span>4 years (BSc IT)
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="relative mt-16 overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]" aria-hidden>
-          <div className="flex w-max animate-marquee gap-12">
+        <div className="relative mt-14 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]" aria-hidden>
+          <div className="flex w-max animate-marquee gap-10">
             {[...marquee, ...marquee].map((t, i) => (
-              <span key={i} className="font-display text-3xl font-semibold text-white/15 md:text-5xl">
+              <span key={i} className="font-poster text-5xl font-black uppercase text-white/[0.07] md:text-7xl">
                 {t}
               </span>
             ))}
           </div>
         </div>
-
-        <Reveal className="mt-12">
-          <div className="flex flex-wrap justify-center gap-3">
-            {softSkills.map((s) => (
-              <span key={s} className="glass rounded-full px-5 py-2.5 text-slate-300 transition-colors hover:border-violet-400/40 hover:text-violet-200">
-                {s}
-              </span>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   );
