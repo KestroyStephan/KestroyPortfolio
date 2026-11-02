@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Mail, Github, Linkedin, Phone, CornerDownLeft } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, Mail, Phone, Send } from 'lucide-react';
 import { profile } from '../data';
-import { Reveal, SectionHeading } from './effects';
+import { Reveal } from './effects';
 
 export function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -19,96 +19,94 @@ export function Contact() {
   };
 
   const input =
-    'w-full border-0 border-b border-[var(--color-line)] bg-transparent px-0 py-2.5 font-mono text-sm text-[var(--color-paper)] placeholder:text-white/25 transition-colors focus:border-[var(--color-acid)] focus:outline-none';
+    'mt-2 w-full rounded-xl border border-[var(--color-line)] bg-[var(--color-surface-2)] px-4 py-3 text-[15px] text-[var(--color-text)] placeholder:text-[var(--color-faint)] transition-colors focus:border-[var(--color-accent-soft)] focus:outline-none';
 
   const channels = [
-    { href: `mailto:${profile.email}`, Icon: Mail, label: 'email', value: profile.email },
-    { href: profile.phoneHref, Icon: Phone, label: 'phone', value: profile.phone },
-    { href: profile.linkedin, Icon: Linkedin, label: 'linkedin', value: 'in/kestroy-stephan' },
-    { href: profile.github, Icon: Github, label: 'github', value: 'KestroyStephan' },
+    { href: `mailto:${profile.email}`, Icon: Mail, label: 'Email', value: profile.email },
+    { href: profile.linkedin, Icon: Linkedin, label: 'LinkedIn', value: 'in/kestroy-stephan' },
+    { href: profile.github, Icon: Github, label: 'GitHub', value: profile.githubUser },
+    { href: profile.phoneHref, Icon: Phone, label: 'Phone', value: profile.phone },
   ];
 
   return (
-    <section id="contact" className="relative overflow-hidden px-4 pb-10 pt-28 md:px-6">
-      <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[var(--color-acid)]/[0.07] blur-[120px]" />
-      <div className="relative mx-auto max-w-7xl">
-        <SectionHeading
-          index="06"
-          tag="inference"
-          title={
-            <>
-              Send a prompt,
-              <br />
-              get a <span className="text-[var(--color-acid)]">reply</span>.
-            </>
-          }
-          intro="Available now for full-time, contract or internship roles in AI/ML, front-end, QA or UI/UX — remote, or on-site abroad with relocation."
-        />
+    <section id="contact" className="relative overflow-hidden px-4 pt-24 md:px-6 md:pt-32">
+      <div aria-hidden className="pointer-events-none absolute -bottom-60 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[var(--color-accent)]/[0.1] blur-[140px]" />
+      <div className="relative mx-auto max-w-6xl">
+        <Reveal>
+          <p className="eyebrow mb-5 flex items-center gap-3">
+            <span className="text-[var(--color-accent-soft)]">07</span>
+            <span className="h-px w-8 bg-[var(--color-line-strong)]" />
+            Contact
+          </p>
+          <h2 className="text-[clamp(2.75rem,8vw,6.5rem)] font-medium leading-[0.95]">
+            Let’s build <span className="serif accent-text">something</span>
+            <br />
+            worth using.
+          </h2>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed">
+            Open to software engineering, full-stack and AI roles: remote worldwide, or on-site abroad with relocation.
+          </p>
+          <a
+            href={`mailto:${profile.email}`}
+            className="group mt-8 inline-flex items-center gap-3 break-all text-xl text-[var(--color-text)] underline decoration-[var(--color-line-strong)] underline-offset-8 transition-colors hover:decoration-[var(--color-accent-soft)] md:text-3xl"
+          >
+            {profile.email}
+            <ArrowUpRight className="h-6 w-6 shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+          </a>
+        </Reveal>
 
-        <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
+        <div className="mt-16 grid gap-4 lg:grid-cols-[1.3fr_1fr] [&>*]:min-w-0">
           <Reveal>
-            <form onSubmit={handleSubmit} className="panel ticks p-6 md:p-8">
-              <p className="mb-6 font-mono text-xs text-white/50">
-                <span className="text-[var(--color-acid)]">kestroy@lab</span> ~ $ infer --to {profile.email}
-              </p>
-              <div className="grid gap-6 sm:grid-cols-2">
-                <label className="block">
-                  <span className="label">--name</span>
+            <form onSubmit={handleSubmit} className="card p-6 md:p-8">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block text-sm">
+                  Name
                   <input name="name" type="text" autoComplete="name" required value={formData.name} onChange={handleChange} className={input} placeholder="Jane Doe" />
                 </label>
-                <label className="block">
-                  <span className="label">--email</span>
+                <label className="block text-sm">
+                  Email
                   <input name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} className={input} placeholder="jane@company.com" />
                 </label>
               </div>
-              <label className="mt-6 block">
-                <span className="label">--prompt</span>
+              <label className="mt-5 block text-sm">
+                Message
                 <textarea name="message" rows={5} required value={formData.message} onChange={handleChange} className={`${input} resize-none`} placeholder="Tell me about the role or project…" />
               </label>
-              <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-                <p className="font-mono text-[11px] text-white/35">opens your email app, ready to send</p>
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-2 bg-[var(--color-acid)] px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-[var(--color-ink)] transition-transform hover:-translate-y-0.5"
-                >
-                  Run inference <CornerDownLeft className="h-4 w-4" />
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                <p className="text-xs text-[var(--color-faint)]">Opens your email app with the message ready to send.</p>
+                <button type="submit" className="btn btn-primary">
+                  Send message <Send className="h-4 w-4" />
                 </button>
               </div>
             </form>
           </Reveal>
 
-          <Reveal delay={100} className="flex flex-col gap-6">
-            <ul className="panel divide-y divide-[var(--color-line)]">
+          <Reveal delay={100} className="flex flex-col gap-4">
+            <ul className="card divide-y divide-[var(--color-line)]">
               {channels.map(({ href, Icon, label, value }) => (
                 <li key={label}>
                   <a
                     href={href}
                     target={href.startsWith('http') ? '_blank' : undefined}
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-[var(--color-ink-3)]"
+                    className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-white/[0.02]"
                   >
-                    <Icon className="h-4 w-4 text-white/40 group-hover:text-[var(--color-acid)]" />
-                    <span className="w-20 font-mono text-xs text-white/40">{label}</span>
-                    <span className="truncate text-sm text-[var(--color-paper)]">{value}</span>
+                    <Icon className="h-4 w-4 text-[var(--color-faint)] transition-colors group-hover:text-[var(--color-accent-soft)]" />
+                    <span className="w-20 text-sm">{label}</span>
+                    <span className="min-w-0 flex-1 truncate text-sm text-[var(--color-text)]">{value}</span>
+                    <ArrowUpRight className="h-4 w-4 text-[var(--color-faint)] transition-colors group-hover:text-[var(--color-text)]" />
                   </a>
                 </li>
               ))}
             </ul>
-            <div className="panel p-5">
-              <p className="mb-3 flex items-center gap-2 font-mono text-sm font-bold text-[var(--color-acid)]">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--color-acid)]" /> AVAILABLE FOR HIRE
+            <div className="card flex-1 p-6">
+              <p className="mb-3 flex items-center gap-2.5 text-sm font-medium text-[var(--color-text)]">
+                <span className="status-dot" /> Available for new opportunities
               </p>
-              <p className="text-sm leading-relaxed text-white/60">
-                Based in Sri Lanka (GMT+5:30). Open to work-from-home roles worldwide and to relocating abroad.
-              </p>
+              <p className="text-[15px] leading-relaxed">Based in Sri Lanka (GMT+5:30) and comfortable working across time zones with distributed teams.</p>
             </div>
           </Reveal>
         </div>
-
-        <footer className="mt-24 flex flex-col gap-3 border-t border-[var(--color-line)] pt-6 font-mono text-[11px] uppercase tracking-wider text-white/35 md:flex-row md:justify-between">
-          <p>© {new Date().getFullYear()} Kestroy Stephan — AI/ML Engineer & Front-End Developer</p>
-          <p>kestroy.lab v1.0 · React · Three.js · Tailwind</p>
-        </footer>
       </div>
     </section>
   );
