@@ -8,6 +8,7 @@ import { About } from './components/About';
 import { GitHubActivity } from './components/GitHubActivity';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { ScrollProgress } from './components/effects';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <a href="#work" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[var(--color-text)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-bg)]">
         Skip to content
       </a>
+      <ScrollProgress />
       <Navbar />
       <main className="relative z-10">
         <Hero />

@@ -56,7 +56,7 @@ export function Navbar() {
         }`}
       >
         <a href="#top" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--color-text)]" onClick={() => setOpen(false)}>
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--color-text)] text-[11px] font-bold text-[var(--color-bg)]">KS</span>
+          <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-cyan)] text-[11px] font-bold text-[var(--color-bg)] shadow-[0_6px_18px_-6px_rgba(124,108,255,0.8)]">KS</span>
           Kestroy Stephan
         </a>
 

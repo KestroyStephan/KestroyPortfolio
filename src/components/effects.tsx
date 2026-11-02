@@ -27,6 +27,65 @@ export function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }:
   );
 }
 
+// Tips its content toward the pointer in 3D, with a soft glare. Mouse only; touch stays flat.
+export function Tilt({ children, className = '', max = 6 }: { children: ReactNode; className?: string; max?: number }) {
+  const onMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse') return;
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    el.classList.add('is-tilting');
+    el.style.setProperty('--ry', `${((x - 0.5) * max * 2).toFixed(2)}deg`);
+    el.style.setProperty('--rx', `${((0.5 - y) * max * 2).toFixed(2)}deg`);
+    el.style.setProperty('--gx', `${(x * 100).toFixed(1)}%`);
+    el.style.setProperty('--gy', `${(y * 100).toFixed(1)}%`);
+  };
+  const onLeave = (e: PointerEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    el.classList.remove('is-tilting');
+    el.style.setProperty('--rx', '0deg');
+    el.style.setProperty('--ry', '0deg');
+  };
+  return (
+    <div onPointerMove={onMove} onPointerLeave={onLeave} className={`tilt relative ${className}`}>
+      {children}
+      <span aria-hidden className="tilt-glare" />
+    </div>
+  );
+}
+
+// Thin gradient bar along the top of the window showing how far down the page you are.
+export function ScrollProgress() {
+  const bar = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (bar.current) bar.current.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+  return (
+    <div
+      ref={bar}
+      aria-hidden
+      className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left scale-x-0 bg-gradient-to-r from-[var(--color-accent)] via-[#5aa8ff] to-[var(--color-cyan)]"
+    />
+  );
+}
+
 // Moves the .card-glow highlight to follow the pointer.
 export function trackGlow(e: PointerEvent<HTMLElement>) {
   const el = e.currentTarget;
