@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
 import { heroStats, profile } from '../data';
+import { Tilt } from './effects';
 import portrait from '../assets/kestroy-portrait.webp';
 
 // Circular "open to work" stamp that slowly turns at the portrait's corner.
@@ -11,11 +12,11 @@ function RotatingBadge() {
           <path id="badge-circle" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
         </defs>
         <text className="fill-[var(--color-text)] font-mono text-[7.4px] uppercase tracking-[0.16em]">
-          <textPath href="#badge-circle">Open to work · Germany · UK · Remote ·</textPath>
+          <textPath href="#badge-circle" textLength="236" lengthAdjust="spacing">Open to work · Software Engineer ·</textPath>
         </text>
       </svg>
       <span className="status-dot h-2.5 w-2.5" />
-      <span className="sr-only">Open to work in Germany, the UK or remote</span>
+      <span className="sr-only">Open to work</span>
     </div>
   );
 }
@@ -24,7 +25,8 @@ export function Hero() {
   return (
     <section id="top" className="relative px-4 pb-16 pt-28 md:px-6 md:pt-36">
       <div aria-hidden className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[90vh]" />
-      <div aria-hidden className="pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full bg-[var(--color-accent)]/[0.12] blur-[140px]" />
+      <div aria-hidden className="aurora -top-40 right-[-10%] h-[560px] w-[560px] bg-[var(--color-accent)]/[0.16]" />
+      <div aria-hidden className="aurora left-[-15%] top-[30%] h-[420px] w-[420px] bg-[var(--color-cyan)]/[0.08] [animation-delay:-8s]" />
 
       <div className="relative mx-auto grid max-w-6xl gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="min-w-0 lg:col-span-7 lg:pt-6">
@@ -33,7 +35,7 @@ export function Hero() {
           </p>
 
           <h1 className="animate-[fadeUp_.8s_.08s_ease-out_both] text-[clamp(2.75rem,7.2vw,5.75rem)] font-medium leading-[0.98]">
-            Building <span className="serif accent-text">Intelligent</span>
+            Building <span className="serif aurora-text pr-1">Intelligent</span>
             <br />
             Digital Experiences.
           </h1>
@@ -76,7 +78,8 @@ export function Hero() {
           {/* accent backlight and offset outline give the portrait depth */}
           <div aria-hidden className="absolute inset-x-8 -bottom-6 top-16 rounded-full bg-[var(--color-accent)]/25 blur-[70px]" />
           <div aria-hidden className="absolute -inset-3 translate-x-3 translate-y-3 rounded-[32px] border border-[var(--color-accent-soft)]/25 transition-transform duration-700 group-hover:translate-x-1.5 group-hover:translate-y-1.5" />
-          <figure className="relative overflow-hidden rounded-[26px] bg-[var(--color-surface)] ring-1 ring-white/10">
+          <Tilt max={5} className="rounded-[26px]">
+          <figure className="relative overflow-hidden rounded-[26px] bg-[var(--color-surface)] ring-1 ring-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.9)]">
             <img
               src={portrait}
               alt="Portrait of Kestroy Stephan in a black suit"
@@ -95,8 +98,9 @@ export function Hero() {
               <p className="eyebrow hidden text-right sm:block">{profile.location}</p>
             </figcaption>
           </figure>
+          </Tilt>
           <RotatingBadge />
-          <div className="absolute -left-4 top-8 hidden rounded-2xl border border-[var(--color-line)] bg-[var(--color-bg)]/85 px-4 py-3 backdrop-blur-md sm:block lg:-left-10">
+          <div className="absolute -left-4 top-8 hidden animate-[float_6s_ease-in-out_infinite] rounded-2xl border border-[var(--color-line)] bg-[var(--color-bg)]/85 px-4 py-3 backdrop-blur-md sm:block lg:-left-10">
             <p className="eyebrow mb-1">Focus</p>
             <p className="text-sm text-[var(--color-text)]">Python backend · Applied AI</p>
           </div>
