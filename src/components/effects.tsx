@@ -81,7 +81,7 @@ export function ScrollProgress() {
     <div
       ref={bar}
       aria-hidden
-      className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left scale-x-0 bg-gradient-to-r from-[var(--color-accent)] via-[#5aa8ff] to-[var(--color-cyan)]"
+      className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left scale-x-0 bg-[var(--color-accent-soft)]"
     />
   );
 }
@@ -98,11 +98,7 @@ export function SectionHeading({ index, eyebrow, title, intro }: { index: string
   return (
     <Reveal className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[1.4fr_1fr] lg:items-end">
       <div>
-        <p className="eyebrow mb-5 flex items-center gap-3">
-          <span className="text-[var(--color-accent-soft)]">{index}</span>
-          <span className="h-px w-8 bg-[var(--color-line-strong)]" />
-          {eyebrow}
-        </p>
+        <p className="eyebrow mb-5" data-index={index}>{eyebrow}</p>
         <h2 className="text-4xl font-medium leading-[1.02] md:text-6xl">{title}</h2>
       </div>
       {intro && <p className="max-w-md text-base leading-relaxed lg:justify-self-end">{intro}</p>}

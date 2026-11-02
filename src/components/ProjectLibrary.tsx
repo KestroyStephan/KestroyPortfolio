@@ -3,8 +3,6 @@ import { ArrowUpRight, Github, Globe } from 'lucide-react';
 import { categories, projectLibrary, type Category } from '../data';
 import { Reveal, Tilt } from './effects';
 
-const imageNote = { data: 'From the project', illustration: 'Illustration' } as const;
-
 // Every project as a card, filterable by area. Cards re-deal with a short stagger when the filter changes.
 export function ProjectLibrary() {
   const [filter, setFilter] = useState<Category | 'All'>('All');
@@ -17,7 +15,7 @@ export function ProjectLibrary() {
         <div>
           <p className="eyebrow mb-3">All projects</p>
           <h3 className="text-3xl font-medium md:text-4xl">
-            Browse by <span className="serif aurora-text pr-1">area</span>
+            Everything, sorted by area
           </h3>
         </div>
         <a href="https://github.com/KestroyStephan?tab=repositories" target="_blank" rel="noopener noreferrer" className="text-sm transition-colors hover:text-[var(--color-text)]">
@@ -38,12 +36,12 @@ export function ProjectLibrary() {
                 onClick={() => setFilter(c)}
                 className={`relative shrink-0 rounded-full border px-4 py-2 text-sm transition-all duration-300 ${
                   on
-                    ? 'border-transparent bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-cyan)] font-medium text-[#06070c] shadow-[0_8px_24px_-8px_rgba(124,108,255,0.7)]'
+                    ? 'border-transparent bg-[var(--color-text)] font-medium text-[var(--color-bg)]'
                     : 'border-[var(--color-line)] hover:border-[var(--color-line-strong)] hover:text-[var(--color-text)]'
                 }`}
               >
                 {c}
-                <span className={`ml-1.5 font-mono text-[11px] ${on ? 'text-[#06070c]/70' : 'text-[var(--color-faint)]'}`}>
+                <span className={`ml-1.5 font-mono text-[11px] ${on ? 'text-[var(--color-bg)]/60' : 'text-[var(--color-faint)]'}`}>
                   {c === 'All' ? projectLibrary.length : count(c)}
                 </span>
               </button>
@@ -72,9 +70,6 @@ export function ProjectLibrary() {
                       p.name === 'CEYLO' ? '!left-1/2 !w-[38%] -translate-x-1/2 !rounded-2xl group-hover:-translate-x-1/2' : 'aspect-[16/10]'
                     }`}
                   />
-                  {p.imageKind && p.imageKind !== 'screen' && (
-                    <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-[10px] uppercase tracking-wider text-white/75 backdrop-blur">{imageNote[p.imageKind]}</span>
-                  )}
                 </a>
                 <div className="flex flex-1 flex-col p-5">
                   <p className="eyebrow mb-2">{p.kind}</p>
