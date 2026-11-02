@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
+import { Reveal, SectionHeading, Tilt } from './effects';
 
 const projects = [
   {
@@ -92,123 +92,104 @@ const projects = [
   },
 ];
 
-export function Projects() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+const statusStyle: Record<string, string> = {
+  'Active Development': 'border-emerald-400/40 text-emerald-300',
+  Deployed: 'border-sky-400/40 text-sky-300',
+  Completed: 'border-violet-400/40 text-violet-300',
+};
 
-  const getStatusStyle = (status: string) => {
-    switch (status) {
-      case 'Active Development':
-        return 'bg-green-500/10 border border-green-500/30 text-green-400';
-      case 'Deployed':
-        return 'bg-blue-500/10 border border-blue-500/30 text-blue-400';
-      case 'Research':
-      case 'Prototype':
-      case 'Experimental':
-        return 'bg-amber-500/10 border border-amber-500/30 text-amber-400';
-      default:
-        return 'bg-violet-500/10 border border-violet-500/30 text-violet-400';
-    }
-  };
+export function Projects() {
+  const [featured, ...rest] = projects;
 
   return (
-    <section id="projects" className="py-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl text-center mb-6 bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
-          Projects
-        </h2>
-        
-        <p className="text-center text-gray-400 mb-16 max-w-2xl mx-auto">
-          A collection of full-stack applications, machine learning models, mobile apps, and research prototypes 
-          showcasing diverse technical skills and problem-solving approaches.
-        </p>
+    <section id="projects" className="relative px-4 py-28">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="03 · Work"
+          title={
+            <>
+              Selected <span className="text-gradient">projects</span>
+            </>
+          }
+          intro="Full-stack apps, machine learning models, mobile apps and research prototypes — each one taught me something new."
+        />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group relative"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <div
-                className={`absolute -inset-0.5 bg-gradient-to-r ${project.gradient} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500`}
-              />
-              <div className="relative p-6 bg-gray-900 rounded-2xl border border-gray-800 h-full flex flex-col">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`h-2 w-20 rounded-full bg-gradient-to-r ${project.gradient}`} />
-                  <span className={`text-xs px-3 py-1 rounded-full ${getStatusStyle(project.status)}`}>
-                    {project.status}
-                  </span>
+        <Reveal className="mb-8">
+          <Tilt className="rounded-3xl" max={5}>
+            <article className="glass relative overflow-hidden rounded-3xl p-8 md:p-12">
+              <div className={`absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br ${featured.gradient} opacity-30 blur-3xl`} />
+              <div className="relative grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
+                <div>
+                  <div className="mb-5 flex flex-wrap items-center gap-3">
+                    <span className="chip border-cyan-400/40 font-mono text-cyan-300">Featured</span>
+                    <span className={`chip ${statusStyle[featured.status] ?? 'border-amber-400/40 text-amber-300'}`}>{featured.status}</span>
+                  </div>
+                  <h3 className="text-3xl font-semibold text-white md:text-5xl">{featured.title}</h3>
+                  <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-400">{featured.description}</p>
                 </div>
-                
-                <h3 className="text-xl mb-3">
-                  {project.title}
-                </h3>
-                
-                <p className="text-gray-400 mb-4 flex-grow text-sm leading-relaxed">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="px-3 py-1 text-xs rounded-full bg-gradient-to-r from-cyan-500/10 to-violet-500/10 border border-cyan-500/20 text-cyan-300"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex gap-4 pt-4 border-t border-gray-800">
+                <div className="tilt-pop flex flex-col gap-5 md:items-end">
+                  <div className="flex flex-wrap gap-2 md:justify-end">
+                    {featured.tech.map((t) => (
+                      <span key={t} className="chip">{t}</span>
+                    ))}
+                  </div>
                   <a
-                    href={project.github}
+                    href={featured.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-cyan-400 transition-colors group"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 font-semibold text-slate-950 transition-transform hover:scale-105"
                   >
-                    <Github className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    View Code
+                    <Github className="h-4 w-4" /> View source
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
+          </Tilt>
+        </Reveal>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {rest.map((project, i) => (
+            <Reveal key={project.title} delay={(i % 3) * 80}>
+              <Tilt className="h-full rounded-3xl">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${project.title} source code on GitHub`}
+                  className="glass flex h-full flex-col rounded-3xl p-6 transition-colors hover:border-white/20"
+                >
+                  <div className="mb-5 flex items-center justify-between">
+                    <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${project.gradient} opacity-90 shadow-lg`} />
+                    <span className={`chip ${statusStyle[project.status] ?? 'border-amber-400/40 text-amber-300'}`}>{project.status}</span>
+                  </div>
+                  <h3 className="tilt-pop flex items-center gap-2 text-xl font-semibold text-white">
+                    {project.title}
+                    <ArrowUpRight className="h-4 w-4 text-slate-500 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-300" />
+                  </h3>
+                  <p className="mt-3 flex-grow text-sm leading-relaxed text-slate-400">{project.description}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span key={t} className="chip">{t}</span>
+                    ))}
+                  </div>
+                </a>
+              </Tilt>
+            </Reveal>
           ))}
         </div>
 
-        <div className="text-center">
+        <Reveal className="mt-12 text-center">
           <a
             href="https://github.com/KestroyStephan"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-500/30 hover:border-cyan-500/50 transition-all duration-300 hover:scale-105 group"
+            className="glass inline-flex items-center gap-3 rounded-2xl px-7 py-4 font-semibold text-white transition-all hover:scale-105 hover:border-cyan-400/40"
           >
-            <Github className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-            <span>View All Projects on GitHub</span>
-            <ExternalLink className="w-4 h-4" />
+            <Github className="h-5 w-5" />
+            See everything on GitHub
+            <ExternalLink className="h-4 w-4 text-slate-400" />
           </a>
-        </div>
-
-        <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-violet-500/5 border border-cyan-500/20">
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              <span>Active Development</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span>Deployed</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-violet-500"></div>
-              <span>Completed</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-              <span>Research/Experimental</span>
-            </div>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
