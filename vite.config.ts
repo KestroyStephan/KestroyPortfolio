@@ -53,8 +53,6 @@
     build: {
       target: 'esnext',
       outDir: 'build',
-      // three.js lives only in the lazy-loaded HeroScene chunk
-      chunkSizeWarningLimit: 1200,
     },
     server: {
       port: 3000,
