@@ -1,9 +1,14 @@
 {
-  "name": "Kestroy Stephan — Portfolio",
+  "name": "Kestroy Stephan — Software Engineer",
   "short_name": "Kestroy",
+  "description": "Portfolio of Kestroy Stephan, Software Engineer and Full-Stack Developer.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0b10",
-  "theme_color": "#0a0b10",
-  "icons": [{ "src": "/kestroy-stephan.jpg", "sizes": "600x600", "type": "image/jpeg" }]
+  "background_color": "#07080e",
+  "theme_color": "#07080e",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }
