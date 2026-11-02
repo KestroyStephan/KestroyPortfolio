@@ -1,156 +1,112 @@
 import { Code2, Database, Cloud, Layers, Palette, Brain } from 'lucide-react';
+import { Reveal, SectionHeading, Tilt } from './effects';
 
 const techCategories = [
   {
-    title: 'Programming Languages',
-    icon: Code2,
-    technologies: ['Python', 'Java', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'SQL'],
-    gradient: 'from-cyan-500 to-blue-500',
-  },
-  {
     title: 'AI & Machine Learning',
     icon: Brain,
-    technologies: ['scikit-learn', 'pandas', 'Feature Engineering', 'Model Evaluation', 'Streamlit', 'NLP'],
-    gradient: 'from-violet-500 to-purple-500',
+    technologies: ['scikit-learn', 'pandas', 'Feature Engineering', 'Model Evaluation', 'NLP', 'Streamlit', 'Jupyter'],
+    gradient: 'from-violet-500 to-fuchsia-500',
+    span: 'md:col-span-2',
   },
   {
-    title: 'Frontend Development',
+    title: 'Languages',
+    icon: Code2,
+    technologies: ['Python', 'TypeScript', 'JavaScript', 'Java', 'SQL', 'PHP', 'HTML', 'CSS'],
+    gradient: 'from-cyan-400 to-blue-500',
+    span: '',
+  },
+  {
+    title: 'Front-End',
     icon: Layers,
-    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Component Design', 'Responsive UI'],
+    technologies: ['React', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Responsive UI', 'Component Design'],
     gradient: 'from-pink-500 to-rose-500',
+    span: '',
+  },
+  {
+    title: 'Backend & Data',
+    icon: Database,
+    technologies: ['FastAPI', 'Node.js', 'REST APIs', 'MySQL', 'MongoDB', 'Firebase', 'Convex'],
+    gradient: 'from-indigo-500 to-sky-500',
+    span: '',
   },
   {
     title: 'QA & DevOps',
     icon: Cloud,
-    technologies: ['Jira', 'GitHub', 'GitHub Actions', 'Docker', 'CI/CD', 'Unit Testing'],
-    gradient: 'from-orange-500 to-amber-500',
+    technologies: ['Unit Testing', 'API Testing', 'GitHub Actions', 'CI/CD', 'Docker', 'Jira', 'Git'],
+    gradient: 'from-orange-500 to-amber-400',
+    span: '',
   },
   {
     title: 'Design & UX',
     icon: Palette,
-    technologies: ['Figma', 'Adobe XD', 'Canva', 'Usability Testing', 'UI/UX Design'],
-    gradient: 'from-green-500 to-emerald-500',
-  },
-  {
-    title: 'Databases & Backend',
-    icon: Database,
-    technologies: ['MongoDB', 'MySQL', 'FastAPI', 'Node.js', 'REST APIs'],
-    gradient: 'from-indigo-500 to-blue-500',
+    technologies: ['Figma', 'Adobe XD', 'Canva', 'Wireframing', 'Prototyping', 'Usability Testing'],
+    gradient: 'from-emerald-500 to-teal-400',
+    span: 'md:col-span-2 lg:col-span-1',
   },
 ];
 
-const certifications = [
-  {
-    title: 'Programming in Python',
-    issuer: 'University of Moratuwa',
-    category: 'Development',
-  },
-  {
-    title: 'Web Design for Beginners',
-    issuer: 'University of Moratuwa',
-    category: 'Design',
-  },
-  {
-    title: 'Pandas, Intro to ML, Data Cleaning',
-    issuer: 'Kaggle',
-    category: 'Data Science',
-  },
-  {
-    title: 'Community-Based Eco Tourism',
-    issuer: 'University Ramon Llull',
-    category: 'Professional',
-  },
-  {
-    title: 'Diploma in IT (DITEC)',
-    issuer: 'Esoft Metro Campus',
-    category: 'Education',
-  },
-  {
-    title: 'Computer Application Assistant (NVQ Level 3)',
-    issuer: 'Loyola Campus',
-    category: 'Technical',
-  },
-];
+const marquee = ['Python', 'React', 'Next.js', 'TypeScript', 'scikit-learn', 'FastAPI', 'Figma', 'Docker', 'MySQL', 'Firebase', 'Tailwind CSS', 'GitHub Actions'];
+
+const softSkills = ['Teamwork', 'Leadership', 'Critical Thinking', 'Problem Solving', 'Communication', 'Creativity', 'Time Management'];
 
 export function TechStack() {
   return (
-    <section id="tech-stack" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl text-center mb-16 bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
-          Tech Stack & Skills
-        </h2>
+    <section id="skills" className="relative px-4 py-28">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="04 · Toolkit"
+          title={
+            <>
+              Skills & <span className="text-gradient">tech stack</span>
+            </>
+          }
+          intro="The tools I reach for to take an idea from data to a deployed, tested product."
+        />
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {techCategories.map((category, index) => {
-            const Icon = category.icon;
-            return (
-              <div key={index} className="group relative">
-                <div
-                  className={`absolute -inset-0.5 bg-gradient-to-r ${category.gradient} rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500`}
-                />
-                <div className="relative p-8 bg-gray-900 rounded-2xl border border-gray-800">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`p-3 rounded-xl bg-gradient-to-r ${category.gradient}`}>
-                      <Icon className="w-6 h-6 text-white" />
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {techCategories.map(({ title, icon: Icon, technologies, gradient, span }, i) => (
+            <Reveal key={title} delay={(i % 3) * 80} className={span}>
+              <Tilt className="h-full rounded-3xl" max={6}>
+                <div className="glass h-full rounded-3xl p-7">
+                  <div className="tilt-pop mb-6 flex items-center gap-4">
+                    <div className={`rounded-2xl bg-gradient-to-br ${gradient} p-3 shadow-lg`}>
+                      <Icon className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="text-2xl">
-                      {category.title}
-                    </h3>
+                    <h3 className="text-xl font-semibold text-white">{title}</h3>
                   </div>
-
-                  <div className="flex flex-wrap gap-3">
-                    {category.technologies.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-gray-300 hover:border-cyan-500/50 hover:text-cyan-300 transition-all duration-300"
-                      >
-                        {tech}
+                  <div className="flex flex-wrap gap-2">
+                    {technologies.map((t) => (
+                      <span key={t} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-slate-300 transition-colors hover:border-cyan-400/40 hover:text-cyan-200">
+                        {t}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              </Tilt>
+            </Reveal>
+          ))}
         </div>
 
-        <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500" />
-          <div className="relative p-8 bg-gray-900 rounded-2xl border border-gray-800">
-            <h3 className="text-3xl mb-8 text-center bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
-              Certifications & Qualifications
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {certifications.map((cert, index) => (
-                <div
-                  key={index}
-                  className="p-4 rounded-xl bg-gradient-to-br from-cyan-500/10 to-violet-500/10 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-500" />
-                    <span className="text-xs text-gray-500">{cert.category}</span>
-                  </div>
-                  <h4 className="text-cyan-400 mb-1">{cert.title}</h4>
-                  <p className="text-sm text-gray-400">{cert.issuer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-12 p-8 rounded-2xl bg-gradient-to-br from-violet-500/10 to-pink-500/10 border border-violet-500/20">
-          <h3 className="text-2xl mb-6 text-center">Soft Skills</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {['Teamwork', 'Leadership', 'Critical Thinking', 'Problem Solving', 'Communication', 'Creativity', 'Time Management'].map((skill, index) => (
-              <span
-                key={index}
-                className="px-6 py-3 rounded-full bg-gray-900 border border-gray-700 text-gray-300 hover:border-violet-500/50 hover:text-violet-300 transition-all duration-300"
-              >
-                {skill}
+        <div className="relative mt-16 overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]" aria-hidden>
+          <div className="flex w-max animate-marquee gap-12">
+            {[...marquee, ...marquee].map((t, i) => (
+              <span key={i} className="font-display text-3xl font-semibold text-white/15 md:text-5xl">
+                {t}
               </span>
             ))}
           </div>
         </div>
+
+        <Reveal className="mt-12">
+          <div className="flex flex-wrap justify-center gap-3">
+            {softSkills.map((s) => (
+              <span key={s} className="glass rounded-full px-5 py-2.5 text-slate-300 transition-colors hover:border-violet-400/40 hover:text-violet-200">
+                {s}
+              </span>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
