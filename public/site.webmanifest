@@ -1,0 +1,9 @@
+{
+  "name": "Kestroy Stephan — Portfolio",
+  "short_name": "Kestroy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05060f",
+  "theme_color": "#05060f",
+  "icons": [{ "src": "/kestroy-stephan.jpg", "sizes": "600x600", "type": "image/jpeg" }]
+}
