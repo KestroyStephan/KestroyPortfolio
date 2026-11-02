@@ -1,6 +1,7 @@
 import { Brain, Code2, Container, Database, Server, Smartphone } from 'lucide-react';
 import { expertise } from '../data';
 import { Reveal, SectionHeading, trackGlow } from './effects';
+import { Toolbox } from './Toolbox';
 
 const icons = [Code2, Smartphone, Server, Brain, Database, Container];
 
@@ -42,6 +43,8 @@ export function Expertise() {
             );
           })}
         </div>
+
+        <Toolbox />
       </div>
     </section>
   );
