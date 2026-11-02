@@ -1,7 +1,7 @@
 import { ArrowUpRight, Github } from 'lucide-react';
-import { caseStudies, ceylo, otherProjects, type CaseStudy } from '../data';
+import { caseStudies, ceylo, otherProjects, type CaseStudy, type Shot } from '../data';
 import { Reveal, SectionHeading, trackGlow } from './effects';
-import { FlowVisual } from './FlowVisual';
+import { BrowserFrame } from './Showcase';
 
 const [agentic, weekly, surprise, gift] = caseStudies;
 
@@ -24,7 +24,19 @@ function Tile({ study, className = '', children }: { study: CaseStudy; className
   );
 }
 
+// A framed screen that bleeds off the tile edge and lifts on hover, lit by the project's accent.
+function Peek({ shot, accent, tall = false }: { shot: Shot; accent: string; tall?: boolean }) {
+  return (
+    <div className={`relative h-full ${tall ? 'min-h-[260px]' : 'min-h-[230px]'}`} style={{ background: `radial-gradient(90% 80% at 80% 0%, ${accent}30, transparent 70%)` }}>
+      <div className="absolute left-6 right-[-14%] top-7 origin-top-left transition-transform duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:-translate-y-2 group-hover:rotate-[-1deg]">
+        <BrowserFrame shot={shot} />
+      </div>
+    </div>
+  );
+}
+
 export function Work() {
+  const [concierge, sos] = ceylo.shots!;
   return (
     <section id="work" className="relative px-4 py-24 md:px-6 md:py-32">
       <div className="mx-auto max-w-6xl">
@@ -40,16 +52,19 @@ export function Work() {
           intro="A mix of production work at Xaltrix and products I led from idea to launch. Each one opens into a full case study below."
         />
 
-        <div className="grid gap-4 md:grid-cols-6 md:auto-rows-[minmax(0,auto)]">
+        <div className="grid gap-4 md:grid-cols-6">
           <Reveal className="md:col-span-4 md:row-span-2">
             <Tile study={ceylo} className="h-full">
-              <div className="relative h-full min-h-[300px] bg-[#0d1f19]">
+              <div className="relative h-full min-h-[340px] overflow-hidden bg-[#0b1a15]" style={{ background: `radial-gradient(80% 70% at 30% 10%, ${ceylo.accent}38, #0b1a15 70%)` }}>
                 <img
-                  src={ceylo.images![0].src}
-                  alt={ceylo.images![0].alt}
+                  src={concierge.src}
+                  alt={concierge.alt}
                   loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
+                  className="absolute bottom-0 left-[4%] h-[92%] w-auto max-w-none rounded-t-2xl object-cover object-top shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-700 group-hover:-translate-y-2"
                 />
+                <div className="absolute bottom-[-8%] right-[-10%] hidden w-[58%] rotate-[-3deg] transition-transform duration-700 group-hover:-translate-y-3 group-hover:rotate-[-1deg] sm:block">
+                  <BrowserFrame shot={sos} />
+                </div>
                 <span className="chip absolute left-4 top-4 border-white/15 bg-black/50 backdrop-blur">Featured case study</span>
               </div>
             </Tile>
@@ -57,33 +72,25 @@ export function Work() {
 
           <Reveal className="md:col-span-2" delay={80}>
             <Tile study={agentic} className="h-full">
-              <div className="flex h-full min-h-[210px] items-center p-5">
-                <FlowVisual steps={agentic.flow!} accent={agentic.accent} compact />
-              </div>
+              <Peek shot={agentic.shots![0]} accent={agentic.accent} />
             </Tile>
           </Reveal>
 
           <Reveal className="md:col-span-2" delay={140}>
             <Tile study={weekly} className="h-full">
-              <div className="relative h-full min-h-[210px] bg-[#0b1d1a]">
-                <img src={weekly.images![0].src} alt={weekly.images![0].alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-left transition-transform duration-700 group-hover:scale-[1.03]" />
-              </div>
+              <Peek shot={weekly.shots![0]} accent={weekly.accent} />
             </Tile>
           </Reveal>
 
           <Reveal className="md:col-span-3">
             <Tile study={surprise} className="h-full">
-              <div className="flex h-full min-h-[200px] items-center p-5">
-                <FlowVisual steps={surprise.flow!} accent={surprise.accent} compact />
-              </div>
+              <Peek shot={surprise.shots![0]} accent={surprise.accent} tall />
             </Tile>
           </Reveal>
 
           <Reveal className="md:col-span-3" delay={80}>
             <Tile study={gift} className="h-full">
-              <div className="flex h-full min-h-[200px] items-center p-5">
-                <FlowVisual steps={gift.flow!} accent={gift.accent} compact />
-              </div>
+              <Peek shot={gift.shots![0]} accent={gift.accent} tall />
             </Tile>
           </Reveal>
         </div>
