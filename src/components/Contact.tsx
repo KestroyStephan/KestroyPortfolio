@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Mail, Send, Github, Linkedin, Phone, MapPin, Plane } from 'lucide-react';
+import { Mail, Github, Linkedin, Phone, CornerDownLeft } from 'lucide-react';
+import { profile } from '../data';
 import { Reveal, SectionHeading } from './effects';
-
-const EMAIL = 'stephankestroy@gmail.com';
 
 export function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -12,110 +11,103 @@ export function Contact() {
     e.preventDefault();
     const subject = encodeURIComponent(`Opportunity for Kestroy — from ${formData.name}`);
     const body = encodeURIComponent(`${formData.message}\n\n— ${formData.name} (${formData.email})`);
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const inputClass =
-    'w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white placeholder:text-slate-500 transition focus:border-cyan-400/60 focus:outline-none focus:ring-4 focus:ring-cyan-400/10';
+  const input =
+    'w-full border-0 border-b border-[var(--color-line)] bg-transparent px-0 py-2.5 font-mono text-sm text-[var(--color-paper)] placeholder:text-white/25 transition-colors focus:border-[var(--color-acid)] focus:outline-none';
+
+  const channels = [
+    { href: `mailto:${profile.email}`, Icon: Mail, label: 'email', value: profile.email },
+    { href: profile.phoneHref, Icon: Phone, label: 'phone', value: profile.phone },
+    { href: profile.linkedin, Icon: Linkedin, label: 'linkedin', value: 'in/kestroy-stephan' },
+    { href: profile.github, Icon: Github, label: 'github', value: 'KestroyStephan' },
+  ];
 
   return (
-    <section id="contact" className="relative px-4 pb-12 pt-28">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[500px] bg-[radial-gradient(ellipse_at_bottom,rgba(124,58,237,0.25),transparent_60%)]" />
-      <div className="relative mx-auto max-w-6xl">
+    <section id="contact" className="relative overflow-hidden px-4 pb-10 pt-28 md:px-6">
+      <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[var(--color-acid)]/[0.07] blur-[120px]" />
+      <div className="relative mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="06 · Contact"
+          index="06"
+          tag="inference"
           title={
             <>
-              Let's build something <span className="text-gradient">great together.</span>
+              Send a prompt,
+              <br />
+              get a <span className="text-[var(--color-acid)]">reply</span>.
             </>
           }
-          intro="I'm available now for full-time, contract or internship roles in AI/ML, front-end development, QA or UI/UX — remote, or on-site abroad with relocation."
+          intro="Available now for full-time, contract or internship roles in AI/ML, front-end, QA or UI/UX — remote, or on-site abroad with relocation."
         />
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
-          <Reveal className="space-y-4">
-            {[
-              { href: `mailto:${EMAIL}`, Icon: Mail, label: 'Email', value: EMAIL },
-              { href: 'tel:+94702036472', Icon: Phone, label: 'Phone', value: '+94 70 203 6472' },
-            ].map(({ href, Icon, label, value }) => (
-              <a key={label} href={href} className="glass group flex items-center gap-4 rounded-2xl p-5 transition-colors hover:border-cyan-400/40">
-                <div className="rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 p-3 text-slate-950 transition-transform group-hover:scale-110">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm text-slate-400">{label}</p>
-                  <p className="truncate font-medium text-white">{value}</p>
-                </div>
-              </a>
-            ))}
-
-            <div className="grid grid-cols-2 gap-4">
-              <a
-                href="https://github.com/KestroyStephan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass flex items-center justify-center gap-2 rounded-2xl p-5 text-white transition-colors hover:border-cyan-400/40"
-              >
-                <Github className="h-5 w-5" /> GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/kestroy-stephan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass flex items-center justify-center gap-2 rounded-2xl p-5 text-white transition-colors hover:border-cyan-400/40"
-              >
-                <Linkedin className="h-5 w-5" /> LinkedIn
-              </a>
-            </div>
-
-            <div className="glass rounded-2xl p-6">
-              <div className="mb-3 flex items-center gap-2 text-white">
-                <MapPin className="h-5 w-5 text-fuchsia-300" />
-                <h3 className="font-semibold">Based in Sri Lanka</h3>
+        <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
+          <Reveal>
+            <form onSubmit={handleSubmit} className="panel ticks p-6 md:p-8">
+              <p className="mb-6 font-mono text-xs text-white/50">
+                <span className="text-[var(--color-acid)]">kestroy@lab</span> ~ $ infer --to {profile.email}
+              </p>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <label className="block">
+                  <span className="label">--name</span>
+                  <input name="name" type="text" autoComplete="name" required value={formData.name} onChange={handleChange} className={input} placeholder="Jane Doe" />
+                </label>
+                <label className="block">
+                  <span className="label">--email</span>
+                  <input name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} className={input} placeholder="jane@company.com" />
+                </label>
               </div>
-              <p className="text-sm leading-relaxed text-slate-400">
-                Working hours flexible for teams in Europe, the Middle East, Asia-Pacific and North America.
-              </p>
-              <p className="mt-3 flex items-center gap-2 text-sm text-slate-300">
-                <Plane className="h-4 w-4 text-cyan-300" /> Open to relocation and work-from-home roles
-              </p>
-            </div>
+              <label className="mt-6 block">
+                <span className="label">--prompt</span>
+                <textarea name="message" rows={5} required value={formData.message} onChange={handleChange} className={`${input} resize-none`} placeholder="Tell me about the role or project…" />
+              </label>
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+                <p className="font-mono text-[11px] text-white/35">opens your email app, ready to send</p>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 bg-[var(--color-acid)] px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-[var(--color-ink)] transition-transform hover:-translate-y-0.5"
+                >
+                  Run inference <CornerDownLeft className="h-4 w-4" />
+                </button>
+              </div>
+            </form>
           </Reveal>
 
-          <Reveal delay={120}>
-            <form onSubmit={handleSubmit} className="glass space-y-5 rounded-3xl p-8">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="name" className="mb-2 block text-sm text-slate-400">Name</label>
-                  <input id="name" name="name" type="text" autoComplete="name" required value={formData.name} onChange={handleChange} className={inputClass} placeholder="Jane Doe" />
-                </div>
-                <div>
-                  <label htmlFor="email" className="mb-2 block text-sm text-slate-400">Email</label>
-                  <input id="email" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} className={inputClass} placeholder="jane@company.com" />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="message" className="mb-2 block text-sm text-slate-400">Message</label>
-                <textarea id="message" name="message" rows={6} required value={formData.message} onChange={handleChange} className={`${inputClass} resize-none`} placeholder="Tell me about the role or project…" />
-              </div>
-              <button
-                type="submit"
-                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 font-semibold text-slate-950 shadow-lg shadow-violet-500/25 transition-transform hover:scale-[1.02]"
-              >
-                <Send className="h-5 w-5 transition-transform group-hover:translate-x-1" /> Send message
-              </button>
-              <p className="text-center text-xs text-slate-500">Opens your email app with the message ready to send.</p>
-            </form>
+          <Reveal delay={100} className="flex flex-col gap-6">
+            <ul className="panel divide-y divide-[var(--color-line)]">
+              {channels.map(({ href, Icon, label, value }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-[var(--color-ink-3)]"
+                  >
+                    <Icon className="h-4 w-4 text-white/40 group-hover:text-[var(--color-acid)]" />
+                    <span className="w-20 font-mono text-xs text-white/40">{label}</span>
+                    <span className="truncate text-sm text-[var(--color-paper)]">{value}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="panel p-5">
+              <p className="mb-3 flex items-center gap-2 font-mono text-sm font-bold text-[var(--color-acid)]">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--color-acid)]" /> AVAILABLE FOR HIRE
+              </p>
+              <p className="text-sm leading-relaxed text-white/60">
+                Based in Sri Lanka (GMT+5:30). Open to work-from-home roles worldwide and to relocating abroad.
+              </p>
+            </div>
           </Reveal>
         </div>
 
-        <footer className="mt-24 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-sm text-slate-500 md:flex-row">
-          <p>© {new Date().getFullYear()} Kestroy Stephan · AI/ML Engineer & Front-End Developer</p>
-          <p>Built with React, Three.js & Tailwind CSS</p>
+        <footer className="mt-24 flex flex-col gap-3 border-t border-[var(--color-line)] pt-6 font-mono text-[11px] uppercase tracking-wider text-white/35 md:flex-row md:justify-between">
+          <p>© {new Date().getFullYear()} Kestroy Stephan — AI/ML Engineer & Front-End Developer</p>
+          <p>kestroy.lab v1.0 · React · Three.js · Tailwind</p>
         </footer>
       </div>
     </section>
