@@ -1,9 +1,6 @@
 // All portfolio content lives here so it can be updated without touching layout code.
-import ceyloConcierge from './assets/projects/ceylo-concierge.webp';
 import ceyloAdminSos from './assets/projects/ceylo-admin-sos.webp';
 import ceyloAdminAi from './assets/projects/ceylo-admin-ai.webp';
-import ceyloGuide from './assets/projects/ceylo-guide.webp';
-import ceyloBooking from './assets/projects/ceylo-booking.webp';
 import weeklyLogin from './assets/projects/weekly-login.webp';
 import ahDashboard from './assets/projects/ah-dashboard.webp';
 import ahOnboarding from './assets/projects/ah-onboarding.webp';
@@ -17,6 +14,22 @@ import ghHome from './assets/projects/gh-home.webp';
 import ghShop from './assets/projects/gh-shop.webp';
 import ghProduct from './assets/projects/gh-product.webp';
 import rypHome from './assets/projects/ryp-home.webp';
+import ceyloMConcierge from './assets/projects/ceylo-m-concierge.webp';
+import ceyloMItinerary from './assets/projects/ceylo-m-itinerary.webp';
+import ceyloMTailor from './assets/projects/ceylo-m-tailor.webp';
+import ceyloMExplore from './assets/projects/ceylo-m-explore.webp';
+import ceyloMGuides from './assets/projects/ceylo-m-guides.webp';
+import ceyloMBooking from './assets/projects/ceylo-m-booking.webp';
+import ceyloMMarket from './assets/projects/ceylo-m-market.webp';
+import ceyloMPassport from './assets/projects/ceylo-m-passport.webp';
+import ceyloMSos from './assets/projects/ceylo-m-sos.webp';
+import shoppeeHome from './assets/projects/shoppee-home.webp';
+import weatherApp from './assets/projects/weather-app.webp';
+import housePrice from './assets/projects/house-price.webp';
+import fakeMessage from './assets/projects/fake-message.webp';
+import wineQuality from './assets/projects/wine-quality.webp';
+import tripPlanner from './assets/projects/trip-planner.webp';
+import teaInventory from './assets/projects/tea-inventory.webp';
 
 export const profile = {
   name: 'Kestroy Stephan',
@@ -28,7 +41,7 @@ export const profile = {
   githubUser: 'KestroyStephan',
   linkedin: 'https://www.linkedin.com/in/kestroy-stephan/',
   location: 'Sri Lanka · GMT+5:30',
-  status: 'Open to work · Germany, UK & remote · Ready to relocate',
+  status: 'Open to work · Available immediately',
   focus: 'Software Engineering · Python Backend · Applied AI',
   // Put a PDF at public/Kestroy-Stephan-CV.pdf and set this to '/Kestroy-Stephan-CV.pdf' to turn on the Download CV button.
   cv: '',
@@ -43,6 +56,9 @@ export const heroStats = [
 
 export type Shot = { src: string; alt: string; label: string; frame?: 'browser' | 'raw' };
 
+// A flat phone screen, drawn inside a CSS device frame.
+export type Screen = { src: string; alt: string; label: string };
+
 export type CaseStudy = {
   slug: string;
   name: string;
@@ -55,8 +71,10 @@ export type CaseStudy = {
   role: string;
   stack: string[];
   metrics?: { value: string; label: string }[];
-  // Real screens. 'browser' draws window chrome around the shot; 'raw' shows it as is (e.g. phone composites).
+  // Real screens. 'browser' draws window chrome around the shot; 'raw' shows it as is.
   shots?: Shot[];
+  // Mobile app screens, shown in a 3D phone carousel.
+  phones?: Screen[];
   // Shown instead of screenshots when a product is private or has no public UI.
   flow?: string[];
   links: { label: string; href: string; kind: 'github' | 'live' | 'product' }[];
@@ -90,12 +108,20 @@ export const ceylo: CaseStudy = {
     { value: '498', label: 'concurrent users, p99 < 1.5 s' },
     { value: '17 KB', label: 'offline recommender model' },
   ],
+  phones: [
+    { src: ceyloMConcierge, alt: 'CEYLO AI Concierge chat planning a three-day trip to Kandy', label: 'AI Concierge' },
+    { src: ceyloMItinerary, alt: 'Generated five-day itinerary with eco scores and carbon score', label: 'Itinerary' },
+    { src: ceyloMTailor, alt: 'Tailor Your Journey form with trip focus, dates, days and budget', label: 'Trip planner' },
+    { src: ceyloMExplore, alt: 'Hidden gems and nearby heritage places in Kandy', label: 'Explore' },
+    { src: ceyloMGuides, alt: 'Local Guides list for finding a certified eco-expert', label: 'Local guides' },
+    { src: ceyloMBooking, alt: 'Booking status screen showing the guide approved the request', label: 'Booking' },
+    { src: ceyloMMarket, alt: 'Marketplace of eco-friendly local tea and handicraft products', label: 'Marketplace' },
+    { src: ceyloMPassport, alt: 'Traveller profile with eco points and eco passport', label: 'Eco passport' },
+    { src: ceyloMSos, alt: 'Emergency Support screen tracking an SOS alert', label: 'Offline SOS' },
+  ],
   shots: [
-    { src: ceyloConcierge, alt: 'CEYLO AI Concierge chat and generated itinerary on two phones', label: 'AI Concierge', frame: 'raw' },
     { src: ceyloAdminSos, alt: 'CEYLO admin portal live SOS monitor with map', label: 'SOS monitor', frame: 'browser' },
     { src: ceyloAdminAi, alt: 'CEYLO admin AI Center with model metrics', label: 'AI Center', frame: 'browser' },
-    { src: ceyloGuide, alt: 'CEYLO guide profile and booking details screens', label: 'Guides & bookings', frame: 'raw' },
-    { src: ceyloBooking, alt: 'CEYLO booking status screen showing request approved', label: 'Booking status', frame: 'raw' },
   ],
   links: [
     { label: 'Source', href: 'https://github.com/KestroyStephan/CEYLO', kind: 'github' },
@@ -208,14 +234,37 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
-export const otherProjects = [
-  { name: 'Shoppee', kind: 'MERN storefront', text: 'Fashion storefront with category browsing and cart.', stack: ['React', 'Node.js', 'MongoDB'], github: 'https://github.com/KestroyStephan/website-shoppee', live: 'https://website-shoppee.vercel.app' },
-  { name: 'AI Trip Planner', kind: 'AI web app', text: 'AI-assisted itinerary planning with real-time data.', stack: ['Next.js', 'TypeScript', 'Convex'], github: 'https://github.com/KestroyStephan/AI-Trip-Planner' },
-  { name: 'House Price API', kind: 'ML service', text: 'Regression pipeline served through FastAPI.', stack: ['Python', 'scikit-learn', 'FastAPI'], github: 'https://github.com/KestroyStephan/House-Price-Prediction' },
-  { name: 'Fake Message Detection', kind: 'NLP classifier', text: 'Machine-learning model that flags fake and scam messages.', stack: ['Python', 'NLP', 'scikit-learn'], github: 'https://github.com/KestroyStephan/Fake-Message-Detection' },
-  { name: 'Wine Quality', kind: 'ML app', text: 'EDA, feature selection and a Streamlit explorer.', stack: ['Python', 'Streamlit', 'scikit-learn'], github: 'https://github.com/KestroyStephan/wine-quality-prediction' },
-  { name: 'Weather App', kind: 'Web app', text: 'Responsive weather dashboard on public APIs.', stack: ['HTML', 'CSS', 'JavaScript'], github: 'https://github.com/KestroyStephan/Weather-Web-Application' },
-  { name: 'Tea Inventory System', kind: 'Desktop app', text: 'Inventory and reporting for a tea business.', stack: ['Java', 'MySQL'], github: 'https://github.com/KestroyStephan/ITBIN-2211-0207' },
+export const categories = ['AI & ML', 'Automation', 'Full-stack', 'Frontend', 'Backend & APIs', 'Mobile'] as const;
+export type Category = (typeof categories)[number];
+
+export type LibraryProject = {
+  name: string;
+  kind: string;
+  text: string;
+  categories: Category[];
+  image: string;
+  // 'illustration' marks covers drawn from the source code because there is no running UI to capture.
+  imageKind?: 'screen' | 'data' | 'illustration';
+  caseStudy?: string;
+  github?: string;
+  live?: string;
+  accent: string;
+};
+
+// Every project, tagged so the library can be filtered by area.
+export const projectLibrary: LibraryProject[] = [
+  { name: 'CEYLO', kind: 'AI tourism platform', text: 'React Native app and React admin portal with an AI concierge, eco-scoring and offline SOS.', categories: ['AI & ML', 'Mobile', 'Full-stack'], image: ceyloMConcierge, caseStudy: 'ceylo', github: 'https://github.com/KestroyStephan/CEYLO', live: 'https://ceylo-theta.vercel.app', accent: '#34d399' },
+  { name: 'AgenticHR', kind: 'AI hiring platform', text: 'Seven AI agents that take a role from job description to onboarding, with payroll and leave.', categories: ['AI & ML', 'Automation', 'Mobile', 'Backend & APIs'], image: ahDashboard, caseStudy: 'agentichr', accent: '#7c8cff' },
+  { name: 'Weekly Report Generator', kind: 'Team dashboard', text: 'Role-aware weekly reports with approvals, analytics and a local Llama 3 RAG assistant.', categories: ['Full-stack', 'Automation', 'AI & ML'], image: weeklyLogin, caseStudy: 'weekly-report', github: 'https://github.com/KestroyStephan/Weekly-Report-Generator-Team-Dashboard', live: 'https://weekly-report-generator-team-dashbo-psi.vercel.app', accent: '#2dd4bf' },
+  { name: 'Surprise Heaven', kind: 'MERN gifting marketplace', text: 'Cake and gift studios, a surprise-box builder, payments and live rider tracking.', categories: ['Full-stack', 'Backend & APIs'], image: shHome, caseStudy: 'surprise-heaven', github: 'https://github.com/KestroyStephan/Gift_Heaven', accent: '#f472b6' },
+  { name: 'GiftHeaven', kind: 'E-commerce · PHP → MERN', text: 'Gift store built on LAMP, then rebuilt as separate MERN storefront, admin and API apps.', categories: ['Full-stack', 'Frontend'], image: ghHome, caseStudy: 'giftheaven', github: 'https://github.com/KestroyStephan/GiftHeaven-Website', accent: '#fbbf24' },
+  { name: 'Fake Message Detection', kind: 'NLP classifier', text: 'TF-IDF with Logistic Regression and Naive Bayes; 98.8% test accuracy on news articles.', categories: ['AI & ML'], image: fakeMessage, imageKind: 'data', github: 'https://github.com/KestroyStephan/Fake-Message-Detection', accent: '#f87171' },
+  { name: 'House Price API', kind: 'ML service', text: 'Random Forest regressor served through FastAPI with predict and model-info endpoints.', categories: ['AI & ML', 'Backend & APIs'], image: housePrice, imageKind: 'data', github: 'https://github.com/KestroyStephan/House-Price-Prediction', accent: '#45e3f5' },
+  { name: 'Wine Quality', kind: 'ML app', text: 'EDA, feature selection and a Random Forest classifier (92% test accuracy) behind a Streamlit app.', categories: ['AI & ML'], image: wineQuality, imageKind: 'data', github: 'https://github.com/KestroyStephan/wine-quality-prediction', accent: '#c084fc' },
+  { name: 'AI Trip Planner', kind: 'AI web app', text: 'Chat-driven trip builder that collects budget, group size and days, then generates a plan.', categories: ['AI & ML', 'Frontend', 'Full-stack'], image: tripPlanner, imageKind: 'illustration', github: 'https://github.com/KestroyStephan/AI-Trip-Planner', accent: '#60a5fa' },
+  { name: 'Shoppee', kind: 'MERN storefront', text: 'Fashion storefront with category pages, cart and an admin for products.', categories: ['Frontend', 'Full-stack'], image: shoppeeHome, github: 'https://github.com/KestroyStephan/website-shoppee', live: 'https://website-shoppee.vercel.app', accent: '#fb923c' },
+  { name: 'Weather App', kind: 'Web app', text: 'Weather for five world cities from the OpenWeatherMap API.', categories: ['Frontend'], image: weatherApp, github: 'https://github.com/KestroyStephan/Weather-Web-Application', accent: '#38bdf8' },
+  { name: 'Tea Inventory System', kind: 'Desktop app', text: 'Java Swing and MySQL app for a tea factory’s products, inventory, sales and users.', categories: ['Backend & APIs'], image: teaInventory, imageKind: 'illustration', github: 'https://github.com/KestroyStephan/ITBIN-2211-0207', accent: '#4ade80' },
 ];
 
 export const expertise = [
