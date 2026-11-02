@@ -22,7 +22,7 @@ export function Research() {
               <br className="hidden md:block" /> <span className="serif">behind the builds.</span>
             </>
           }
-          intro="Two extended abstracts accepted and published at HIRS 2025, each grounded in a project I built."
+          intro="Two extended abstracts published at HIRS 2025, each grounded in a project I built, plus the guides I write on Medium."
         />
 
         {profiles.length > 0 && (
@@ -56,9 +56,9 @@ export function Research() {
                     ))}
                   </ul>
                   <div className="mt-6 flex flex-wrap gap-4 border-t border-[var(--color-line)] pt-5 text-sm">
-                    {p.href && (
-                      <a href={p.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] transition-colors hover:text-[var(--color-accent-soft)]">
-                        Read the paper <ArrowUpRight className="h-3.5 w-3.5" />
+                    {(p.href || profile.researchgate) && (
+                      <a href={p.href || profile.researchgate} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--color-text)] transition-colors hover:text-[var(--color-accent-soft)]">
+                        {p.href ? 'Read the paper' : 'On ResearchGate'} <ArrowUpRight className="h-3.5 w-3.5" />
                       </a>
                     )}
                     {p.related && (

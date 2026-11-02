@@ -45,8 +45,8 @@ export const profile = {
   githubUser: 'KestroyStephan',
   linkedin: 'https://www.linkedin.com/in/kestroy-stephan/',
   // Leave empty to hide the link everywhere it appears.
-  researchgate: '',
-  medium: '',
+  researchgate: 'https://www.researchgate.net/profile/Kestroy-Stephan',
+  medium: 'https://medium.com/@stephankestroy',
   location: 'Sri Lanka · GMT+5:30',
   status: 'Open to work · Available immediately',
   focus: 'Software Engineering · Python Backend · Applied AI',
@@ -314,7 +314,14 @@ export const publications: Publication[] = [
 ];
 
 // Medium articles. Add entries as { title, href, date, summary }.
-export const articles: { title: string; href: string; date?: string; summary?: string }[] = [];
+export const articles: { title: string; href: string; date?: string; summary?: string }[] = [
+  {
+    title: 'Troubleshooting Disk Space Issues with df, du, and ncdu',
+    href: 'https://medium.com/@stephankestroy/automating-log-rotation-with-logrotate-093c822b2104',
+    date: 'Feb 2025',
+    summary: 'A step-by-step Linux guide to finding what is filling a disk and freeing space before it slows the system down.',
+  },
+];
 
 export const expertise = [
   { group: 'Languages', items: ['Python', 'Dart', 'Java', 'JavaScript', 'PHP', 'HTML', 'CSS', 'SQL'] },
