@@ -55,12 +55,16 @@ export function Tilt({ children, className = '', max = 10 }: { children: ReactNo
   );
 }
 
-export function SectionHeading({ eyebrow, title, intro }: { eyebrow: string; title: ReactNode; intro?: string }) {
+export function SectionHeading({ index, tag, title, intro }: { index: string; tag: string; title: ReactNode; intro?: string }) {
   return (
-    <Reveal className="mb-14 max-w-3xl">
-      <p className="eyebrow mb-4">{eyebrow}</p>
-      <h2 className="text-4xl font-semibold text-white md:text-6xl">{title}</h2>
-      {intro && <p className="mt-5 text-lg leading-relaxed text-slate-400">{intro}</p>}
+    <Reveal className="mb-14 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <p className="label mb-5">
+          <span className="text-[var(--color-acid)]">{index}</span> // {tag}
+        </p>
+        <h2 className="text-5xl font-light leading-[0.95] tracking-tight md:text-7xl">{title}</h2>
+      </div>
+      {intro && <p className="max-w-sm text-base leading-relaxed text-white/55 md:text-right">{intro}</p>}
     </Reveal>
   );
 }
