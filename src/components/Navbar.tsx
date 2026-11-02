@@ -7,6 +7,7 @@ const links = [
   { id: 'expertise', label: 'Expertise' },
   { id: 'experience', label: 'Experience' },
   { id: 'about', label: 'About' },
+  { id: 'research', label: 'Research' },
 ];
 
 export function Navbar() {

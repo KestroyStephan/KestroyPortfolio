@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpRight, Github, Linkedin, Mail, Phone, Send } from 'lucide-react';
+import { ArrowUpRight, BookOpen, Github, Linkedin, Mail, PenLine, Phone, Send } from 'lucide-react';
 import { profile } from '../data';
 import { Reveal } from './effects';
 
@@ -26,6 +26,8 @@ export function Contact() {
     { href: profile.linkedin, Icon: Linkedin, label: 'LinkedIn', value: 'in/kestroy-stephan' },
     { href: profile.github, Icon: Github, label: 'GitHub', value: profile.githubUser },
     { href: profile.phoneHref, Icon: Phone, label: 'Phone', value: profile.phone },
+    ...(profile.researchgate ? [{ href: profile.researchgate, Icon: BookOpen, label: 'ResearchGate', value: 'Publications' }] : []),
+    ...(profile.medium ? [{ href: profile.medium, Icon: PenLine, label: 'Medium', value: 'Articles' }] : []),
   ];
 
   return (
@@ -34,7 +36,7 @@ export function Contact() {
       <div className="relative mx-auto max-w-6xl">
         <Reveal>
           <p className="eyebrow mb-5 flex items-center gap-3">
-            <span className="text-[var(--color-accent-soft)]">07</span>
+            <span className="text-[var(--color-accent-soft)]">08</span>
             <span className="h-px w-8 bg-[var(--color-line-strong)]" />
             Contact
           </p>

@@ -66,7 +66,7 @@ export function GitHubActivity() {
     <section id="github" className="relative px-4 py-24 md:px-6 md:py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
-          index="06"
+          index="07"
           eyebrow="GitHub activity"
           title={
             <>

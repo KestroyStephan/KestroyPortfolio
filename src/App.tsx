@@ -5,6 +5,7 @@ import { CaseStudies } from './components/CaseStudies';
 import { Expertise } from './components/Expertise';
 import { Experience } from './components/Experience';
 import { About } from './components/About';
+import { Research } from './components/Research';
 import { GitHubActivity } from './components/GitHubActivity';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
@@ -25,6 +26,7 @@ export default function App() {
         <Expertise />
         <Experience />
         <About />
+        <Research />
         <GitHubActivity />
         <Contact />
       </main>
