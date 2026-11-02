@@ -2,6 +2,7 @@ import { ArrowUpRight, Github, Globe } from 'lucide-react';
 import { caseStudies, ceylo, type CaseStudy } from '../data';
 import { Reveal, SectionHeading } from './effects';
 import { FlowVisual } from './FlowVisual';
+import { Showcase } from './Showcase';
 
 function Links({ study }: { study: CaseStudy }) {
   return (
@@ -49,18 +50,26 @@ function Features({ items, accent }: { items: string[]; accent: string }) {
   );
 }
 
+function Header({ study, size = 'md' }: { study: CaseStudy; size?: 'lg' | 'md' }) {
+  return (
+    <>
+      <p className="eyebrow mb-4 flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-full" style={{ background: study.accent }} />
+        {study.category} · {study.year}
+      </p>
+      <h3 className={size === 'lg' ? 'text-[clamp(3.5rem,11vw,8.5rem)] font-semibold leading-[0.85] tracking-[-0.045em]' : 'text-4xl font-medium md:text-6xl'}>
+        {study.name}
+      </h3>
+    </>
+  );
+}
+
 function Featured() {
-  const [concierge, sos, ai, guide, booking] = ceylo.images!;
-  const shot = 'h-full w-full object-cover';
   return (
     <article id="cs-ceylo" className="scroll-mt-24">
       <Reveal className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
-          <p className="eyebrow mb-4 flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full" style={{ background: ceylo.accent }} />
-            {ceylo.category} · {ceylo.year}
-          </p>
-          <h3 className="text-[clamp(3.5rem,11vw,8.5rem)] font-semibold leading-[0.85] tracking-[-0.045em]">{ceylo.name}</h3>
+          <Header study={ceylo} size="lg" />
           <p className="mt-6 max-w-2xl text-lg leading-relaxed">{ceylo.summary}</p>
         </div>
         <Links study={ceylo} />
@@ -78,24 +87,9 @@ function Featured() {
         </dl>
       </Reveal>
 
-      {/* Real screens from the CEYLO launch video */}
-      <div className="mt-4 grid gap-4 md:grid-cols-12">
-        <Reveal className="overflow-hidden rounded-2xl border border-[var(--color-line)] bg-[#0d1f19] md:col-span-7 md:row-span-2">
-          <img src={concierge.src} alt={concierge.alt} loading="lazy" className={`${shot} aspect-square md:aspect-auto`} />
-        </Reveal>
-        <Reveal delay={80} className="overflow-hidden rounded-2xl border border-[var(--color-line)] md:col-span-5">
-          <img src={sos.src} alt={sos.alt} loading="lazy" className={`${shot} aspect-[980/619]`} />
-        </Reveal>
-        <Reveal delay={140} className="overflow-hidden rounded-2xl border border-[var(--color-line)] md:col-span-5">
-          <img src={ai.src} alt={ai.alt} loading="lazy" className={`${shot} aspect-[980/654]`} />
-        </Reveal>
-        <Reveal className="overflow-hidden rounded-2xl border border-[var(--color-line)] bg-[#0d1f19] md:col-span-8">
-          <img src={guide.src} alt={guide.alt} loading="lazy" className={`${shot} aspect-[950/700] object-top`} />
-        </Reveal>
-        <Reveal delay={80} className="overflow-hidden rounded-2xl border border-[var(--color-line)] bg-[#0d1f19] md:col-span-4">
-          <img src={booking.src} alt={booking.alt} loading="lazy" className={`${shot} aspect-[500/700] object-top`} />
-        </Reveal>
-      </div>
+      <Reveal className="mt-4">
+        <Showcase shots={ceylo.shots!} accent={ceylo.accent} name={ceylo.name} />
+      </Reveal>
 
       <div className="mt-14 grid gap-10 lg:grid-cols-3 lg:gap-12">
         <Reveal><Block label="The problem">{ceylo.problem}</Block></Reveal>
@@ -111,42 +105,49 @@ function Featured() {
   );
 }
 
-function Study({ study, flip }: { study: CaseStudy; flip: boolean }) {
-  const image = study.images?.[0];
+// Each case study: a full-width showcase of its real screens, then the story in three columns.
+function Study({ study, index }: { study: CaseStudy; index: number }) {
   return (
     <article id={`cs-${study.slug}`} className="scroll-mt-24 border-t border-[var(--color-line)] pt-14 md:pt-20">
-      <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <Reveal className={flip ? 'lg:order-2' : ''}>
-          <p className="eyebrow mb-4 flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full" style={{ background: study.accent }} />
-            {study.category} · {study.year}
-          </p>
-          <h3 className="text-4xl font-medium md:text-5xl">{study.name}</h3>
-          <p className="mt-5 text-lg leading-relaxed">{study.summary}</p>
+      <Reveal className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+          <p className="mb-3 font-mono text-xs text-[var(--color-faint)]">0{index + 2} / 0{caseStudies.length + 1}</p>
+          <Header study={study} />
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed">{study.summary}</p>
+        </div>
+        <Links study={study} />
+      </Reveal>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            <Block label="Problem"><p className="text-[15px]">{study.problem}</p></Block>
-            <Block label="Solution"><p className="text-[15px]">{study.solution}</p></Block>
+      <Reveal className="mt-10">
+        {study.shots ? (
+          <Showcase shots={study.shots} accent={study.accent} name={study.name} />
+        ) : (
+          <div className="card p-6">
+            <FlowVisual steps={study.flow!} accent={study.accent} />
           </div>
-          <div className="mt-8">
-            <Block label="My role"><p className="text-[15px] text-[var(--color-text)]/85">{study.role}</p></Block>
+        )}
+      </Reveal>
+
+      {study.flow && study.shots && (
+        <Reveal className="mt-4">
+          <div className="card p-5 md:p-6">
+            <p className="eyebrow mb-4">How it works</p>
+            <FlowVisual steps={study.flow} accent={study.accent} />
           </div>
-          <div className="mt-8"><Links study={study} /></div>
         </Reveal>
+      )}
 
-        <Reveal delay={100} className={`flex flex-col gap-6 ${flip ? 'lg:order-1' : ''}`}>
-          <div className="card overflow-hidden">
-            {image ? (
-              <img src={image.src} alt={image.alt} loading="lazy" className="aspect-[16/10] w-full object-cover object-left" />
-            ) : (
-              <div className="p-5 md:p-6">
-                <p className="eyebrow mb-4">How it works</p>
-                <FlowVisual steps={study.flow!} accent={study.accent} />
-              </div>
-            )}
-          </div>
+      <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
+        <Reveal className="space-y-8">
+          <Block label="Problem"><p className="text-[15px]">{study.problem}</p></Block>
+          <Block label="Solution"><p className="text-[15px]">{study.solution}</p></Block>
+        </Reveal>
+        <Reveal delay={80}>
           <Block label="Features"><Features items={study.features} accent={study.accent} /></Block>
-          <Stack items={study.stack} />
+        </Reveal>
+        <Reveal delay={160} className="space-y-8">
+          <Block label="My role"><p className="text-[15px] text-[var(--color-text)]/85">{study.role}</p></Block>
+          <Block label="Built with"><Stack items={study.stack} /></Block>
         </Reveal>
       </div>
     </article>
@@ -166,12 +167,12 @@ export function CaseStudies() {
               <br className="hidden md:block" /> <span className="serif">and what shipped.</span>
             </>
           }
-          intro="What each product does, the part I built, and the stack behind it, with real screens wherever the product is public."
+          intro="What each product does, the part I built, and the stack behind it, shown on real screens from the running apps."
         />
         <Featured />
         <div className="mt-20 space-y-20 md:mt-28 md:space-y-28">
           {caseStudies.map((s, i) => (
-            <Study key={s.slug} study={s} flip={i % 2 === 1} />
+            <Study key={s.slug} study={s} index={i} />
           ))}
         </div>
       </div>
