@@ -1,6 +1,34 @@
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Cpu, Languages, MapPin, ShieldAlert, Sprout, Wallet } from 'lucide-react';
 import { companyProjects, experience, operations } from '../data';
 import { Reveal, SectionHeading, trackGlow } from './effects';
+import { BrowserFrame } from './Showcase';
+
+const tints = ['#7c8cff', '#f59e0b', '#4ade80'];
+const featureIcons = [Sprout, MapPin, Wallet, Languages, ShieldAlert, Cpu];
+
+// There are no public Govi.ai screens, so this draws the features I built as an illustrated phone.
+function FeaturePhone({ name, features, accent }: { name: string; features: string[]; accent: string }) {
+  return (
+    <div className="absolute left-1/2 top-6 w-[210px] -translate-x-1/2 rounded-t-[28px] border border-b-0 border-white/12 bg-[#0d0f15] p-3 pb-0 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.85)] transition-transform duration-700 group-hover:-translate-y-1.5">
+      <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-white/15" />
+      <div className="mb-3 flex items-center justify-between px-1">
+        <span className="text-xs font-medium text-[var(--color-text)]">{name}</span>
+        <span className="text-[9px] uppercase tracking-wider text-[var(--color-faint)]">Illustration</span>
+      </div>
+      <ul className="grid grid-cols-2 gap-1.5">
+        {features.map((f, i) => {
+          const Icon = featureIcons[i % featureIcons.length];
+          return (
+            <li key={f} className="rounded-lg border border-white/[0.06] bg-white/[0.03] p-2">
+              <Icon className="mb-1.5 h-3.5 w-3.5" style={{ color: accent }} />
+              <span className="block text-[10px] leading-tight text-[var(--color-text)]/80">{f}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
 
 export function Experience() {
   return (
@@ -15,7 +43,7 @@ export function Experience() {
               <br className="hidden md:block" /> software <span className="serif">at Xaltrix.</span>
             </>
           }
-          intro="I joined Xaltrix as a full-stack intern in January 2026 and moved into a Software Engineer role in July 2026."
+          intro="Nine months at Xaltrix: a full-stack internship from January 2026, then Software Engineer from July to the end of September 2026."
         />
 
         <ol className="relative">
@@ -23,11 +51,6 @@ export function Experience() {
             <Reveal as="li" key={job.role} delay={i * 60} className="grid gap-4 border-t border-[var(--color-line)] py-10 md:grid-cols-[220px_1fr] md:gap-10">
               <div>
                 <p className="font-mono text-xs text-[var(--color-faint)]">{job.period}</p>
-                {job.current && (
-                  <p className="chip mt-3">
-                    <span className="status-dot" /> Current
-                  </p>
-                )}
               </div>
               <div>
                 <h3 className="text-2xl font-medium">{job.role}</h3>
@@ -62,15 +85,27 @@ export function Experience() {
           <div className="grid gap-4 lg:grid-cols-3">
             {companyProjects.map((p, i) => (
               <Reveal key={p.name} delay={i * 70}>
-                <div onPointerMove={trackGlow} className="card card-glow flex h-full flex-col p-6">
+                <div onPointerMove={trackGlow} className="card card-glow group flex h-full flex-col overflow-hidden">
+                  <div className="relative h-52 overflow-hidden border-b border-[var(--color-line)]" style={{ background: `radial-gradient(90% 80% at 80% 0%, ${tints[i]}30, transparent 70%)` }}>
+                    {p.shot ? (
+                      <div className="absolute left-5 right-[-18%] top-6 transition-transform duration-700 group-hover:-translate-y-1.5">
+                        <BrowserFrame shot={p.shot} />
+                      </div>
+                    ) : (
+                      <FeaturePhone name={p.name} features={p.features ?? []} accent={tints[i]} />
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
                   <p className="eyebrow mb-3">{p.kind}</p>
                   <h4 className="text-xl font-medium">{p.name}</h4>
                   <p className="mt-3 flex-1 text-[15px] leading-relaxed">{p.text}</p>
+                  {p.note && <p className="mt-3 text-xs leading-relaxed text-[var(--color-faint)]">{p.note}</p>}
                   <ul className="mt-6 flex flex-wrap gap-2">
                     {p.tags.map((t) => (
                       <li key={t} className="chip">{t}</li>
                     ))}
                   </ul>
+                  </div>
                 </div>
               </Reveal>
             ))}
