@@ -1,5 +1,5 @@
-import { ArrowUpRight, BookOpen, FileText, PenLine } from 'lucide-react';
-import { articles, profile, publications } from '../data';
+import { ArrowUpRight, BookOpen, FileText, GraduationCap, PenLine } from 'lucide-react';
+import { articles, profile, publications, thesis } from '../data';
 import { Reveal, SectionHeading, Tilt } from './effects';
 
 // Published research and writing. Links appear only once they are filled in data.ts.
@@ -22,7 +22,7 @@ export function Research() {
               <br className="hidden md:block" /> <span className="serif">behind the builds.</span>
             </>
           }
-          intro="Two extended abstracts published at HIRS 2025, each grounded in a project I built, plus the guides I write on Medium."
+          intro="My final-year thesis, two extended abstracts published at HIRS 2025, and the guides I write on Medium."
         />
 
         {profiles.length > 0 && (
@@ -34,6 +34,35 @@ export function Research() {
             ))}
           </Reveal>
         )}
+
+        <Reveal className="mb-4">
+          <Tilt max={2.5} className="rounded-[24px]">
+            <article className="card grid overflow-hidden md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+              <div className="relative min-h-[320px] overflow-hidden bg-[var(--color-surface-2)] md:min-h-[440px]">
+                <img src={thesis.photo} alt="Kestroy holding his bound final-year thesis at Horizon Campus" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-[50%_42%] transition-transform duration-[1.2s] ease-out hover:scale-[1.04]" />
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-[var(--color-surface)]/40" />
+              </div>
+              <div className="flex flex-col justify-center p-6 md:p-10">
+                <span className="chip mb-6 w-fit border-[var(--color-accent-soft)]/30 text-[var(--color-text)]">
+                  <GraduationCap className="h-3.5 w-3.5 text-[var(--color-accent-soft)]" /> Final-year thesis · {thesis.date}
+                </span>
+                <h3 className="text-2xl font-medium leading-tight md:text-[2rem]">{thesis.title}</h3>
+                <p className="mt-3 text-sm text-[var(--color-faint)]">
+                  S. Kestroy · {thesis.degree} · {thesis.school}
+                </p>
+                <p className="mt-6 text-[15px] leading-relaxed md:text-base">{thesis.summary}</p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a href="#cs-ceylo" className="btn btn-primary h-10 px-4 text-[13px]">
+                    See CEYLO <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                  <a href="https://github.com/KestroyStephan/CEYLO" target="_blank" rel="noopener noreferrer" className="btn btn-ghost h-10 px-4 text-[13px]">
+                    Source code <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          </Tilt>
+        </Reveal>
 
         <ol className="grid gap-4 lg:grid-cols-2">
           {publications.map((p, i) => (

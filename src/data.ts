@@ -14,6 +14,7 @@ import ghHome from './assets/projects/gh-home.webp';
 import ghShop from './assets/projects/gh-shop.webp';
 import ghProduct from './assets/projects/gh-product.webp';
 import rypHome from './assets/projects/ryp-home.webp';
+import thesisPhoto from './assets/thesis.webp';
 import ceyloMConcierge from './assets/projects/ceylo-m-concierge.webp';
 import ceyloMItinerary from './assets/projects/ceylo-m-itinerary.webp';
 import ceyloMTailor from './assets/projects/ceylo-m-tailor.webp';
@@ -277,6 +278,16 @@ export const projectLibrary: LibraryProject[] = [
   { name: 'Weather App', kind: 'Web app', text: 'Weather for five world cities from the OpenWeatherMap API.', categories: ['Frontend'], image: weatherApp, github: 'https://github.com/KestroyStephan/Weather-Web-Application', accent: '#38bdf8' },
   { name: 'Tea Inventory System', kind: 'Desktop app', text: 'Java Swing and MySQL app for a tea factory’s products, inventory, sales and users.', categories: ['Backend & APIs'], image: teaInventory, imageKind: 'illustration', github: 'https://github.com/KestroyStephan/ITBIN-2211-0207', accent: '#4ade80' },
 ];
+
+export const thesis = {
+  title: 'An AI-Powered Guide for Sustainable Eco & Cultural Tourism in Sri Lanka',
+  degree: 'BSc (Hons) Information Technology',
+  school: 'Faculty of Information Technology, Horizon Campus',
+  date: 'October 2026',
+  summary:
+    'My final-year dissertation, written around CEYLO: the research, design, AI models and user testing behind a mobile guide that helps travellers explore Sri Lanka sustainably and safely.',
+  photo: thesisPhoto,
+};
 
 export type Publication = {
   title: string;
