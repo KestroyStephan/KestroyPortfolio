@@ -3,7 +3,7 @@ import { ArrowUpRight, Github, Globe } from 'lucide-react';
 import { categories, projectLibrary, type Category } from '../data';
 import { Reveal, Tilt } from './effects';
 
-const imageNote = { data: 'From the project data', illustration: 'Illustration' } as const;
+const imageNote = { data: 'From the project', illustration: 'Illustration' } as const;
 
 // Every project as a card, filterable by area. Cards re-deal with a short stagger when the filter changes.
 export function ProjectLibrary() {
