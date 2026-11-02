@@ -6,7 +6,7 @@ import desk from '../assets/kestroy-desk.webp';
 const facts = [
   { k: 'Based in', v: profile.location },
   { k: 'Languages', v: 'English · Tamil · Sinhala' },
-  { k: 'Open to', v: 'Germany · UK · Remote · relocation' },
+  { k: 'Open to', v: 'On-site · Hybrid · Remote' },
   { k: 'Leadership', v: 'Faculty Representative · Head Prefect' },
 ];
 
@@ -56,7 +56,7 @@ export function About() {
               </p>
               <p>
                 I’ve completed my BSc (Hons) in Information Technology and I’m awaiting graduation. Next, I’m looking for a software engineering role focused on Python
-                backend and applied AI, in Germany, the UK or remote, and I’m ready to relocate.
+                backend and applied AI, on-site, hybrid or remote.
               </p>
             </div>
 

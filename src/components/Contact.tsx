@@ -46,7 +46,7 @@ export function Contact() {
             worth using.
           </h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed">
-            Open to Software Engineer, Python backend and applied AI roles in Germany, the UK or remote. Available immediately and ready to relocate.
+            Open to Software Engineer, Python backend and applied AI roles: on-site, hybrid or remote. Available immediately.
           </p>
           <a
             href={`mailto:${profile.email}`}
@@ -105,7 +105,7 @@ export function Contact() {
               <p className="mb-3 flex items-center gap-2.5 text-sm font-medium text-[var(--color-text)]">
                 <span className="status-dot" /> Available for new opportunities
               </p>
-              <p className="text-[15px] leading-relaxed">Based in Sri Lanka (GMT+5:30), available to start now and open to visa-sponsored roles with relocation.</p>
+              <p className="text-[15px] leading-relaxed">Based in Sri Lanka (GMT+5:30), available to start now and open to on-site, hybrid or remote work.</p>
             </div>
           </Reveal>
         </div>
