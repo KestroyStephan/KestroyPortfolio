@@ -11,15 +11,13 @@ export function Research() {
 
   return (
     <section id="research" className="relative px-4 py-24 md:px-6 md:py-32">
-      <div aria-hidden className="aurora right-[-10%] top-20 h-[380px] w-[380px] bg-[var(--color-cyan)]/[0.07]" />
-      <div className="relative mx-auto max-w-6xl">
+            <div className="relative mx-auto max-w-6xl">
         <SectionHeading
           index="06"
           eyebrow="Research & writing"
           title={
             <>
-              Published work
-              <br className="hidden md:block" /> <span className="serif">behind the builds.</span>
+              Research and writing.
             </>
           }
           intro="My final-year thesis, two extended abstracts published at HIRS 2025, and the guides I write on Medium."

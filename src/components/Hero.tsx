@@ -24,9 +24,7 @@ function RotatingBadge() {
 export function Hero() {
   return (
     <section id="top" className="relative px-4 pb-16 pt-28 md:px-6 md:pt-36">
-      <div aria-hidden className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[90vh]" />
-      <div aria-hidden className="aurora -top-40 right-[-10%] h-[560px] w-[560px] bg-[var(--color-accent)]/[0.16]" />
-      <div aria-hidden className="aurora left-[-15%] top-[30%] h-[420px] w-[420px] bg-[var(--color-cyan)]/[0.08] [animation-delay:-8s]" />
+            <div aria-hidden className="pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-[var(--color-accent)]/[0.1] blur-[140px]" />
 
       <div className="relative mx-auto grid max-w-6xl gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="min-w-0 lg:col-span-7 lg:pt-6">
@@ -35,9 +33,9 @@ export function Hero() {
           </p>
 
           <h1 className="animate-[fadeUp_.8s_.08s_ease-out_both] text-[clamp(2.75rem,7.2vw,5.75rem)] font-medium leading-[0.98]">
-            Building <span className="serif aurora-text pr-1">Intelligent</span>
+            Hi, I’m Kestroy.
             <br />
-            Digital Experiences.
+            <span className="text-[var(--color-accent-soft)]">I build software</span> that ships.
           </h1>
 
           <p className="mt-7 animate-[fadeUp_.8s_.16s_ease-out_both] font-mono text-xs uppercase leading-relaxed tracking-[0.12em] text-[var(--color-text)]/70">
@@ -45,7 +43,8 @@ export function Hero() {
           </p>
 
           <p className="mt-5 max-w-xl animate-[fadeUp_.8s_.22s_ease-out_both] text-lg leading-relaxed">
-            I design and develop scalable web applications, intelligent AI-powered solutions, and modern digital products that solve real-world problems.
+            Most recently I built AgenticHR, an AI hiring platform, at Xaltrix. Before that I led CEYLO, my final-year travel app for Sri Lanka. I like Python
+            backends, Flutter and React, and putting AI to work on problems people actually have.
           </p>
 
           <div className="mt-9 flex animate-[fadeUp_.8s_.3s_ease-out_both] flex-wrap items-center gap-3">
@@ -100,7 +99,7 @@ export function Hero() {
           </figure>
           </Tilt>
           <RotatingBadge />
-          <div className="absolute -left-4 top-8 hidden animate-[float_6s_ease-in-out_infinite] rounded-2xl border border-[var(--color-line)] bg-[var(--color-bg)]/85 px-4 py-3 backdrop-blur-md sm:block lg:-left-10">
+          <div className="absolute -left-4 top-8 hidden rounded-2xl border border-[var(--color-line)] bg-[var(--color-bg)]/85 px-4 py-3 backdrop-blur-md sm:block lg:-left-10">
             <p className="eyebrow mb-1">Focus</p>
             <p className="text-sm text-[var(--color-text)]">Python backend · Applied AI</p>
           </div>

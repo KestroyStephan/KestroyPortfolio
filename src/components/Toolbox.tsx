@@ -30,10 +30,10 @@ export function Toolbox() {
         <div>
           <p className="eyebrow mb-3">Toolbox</p>
           <h3 className="text-3xl font-medium md:text-4xl">
-            Tools and technologies <span className="serif">I use</span>
+            Tools I use day to day
           </h3>
         </div>
-        <p className="max-w-sm text-sm leading-relaxed">From languages and frameworks to the AI assistants, design and testing tools in my daily workflow.</p>
+        <p className="max-w-sm text-sm leading-relaxed">Including the AI assistants and design tools I lean on while I work.</p>
       </Reveal>
 
       <div className="relative -mx-4 mb-10 overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)] md:mx-0">

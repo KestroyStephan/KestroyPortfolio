@@ -19,8 +19,7 @@ export function About() {
           eyebrow="About"
           title={
             <>
-              Engineer by training,
-              <br className="hidden md:block" /> <span className="serif">product-minded by habit.</span>
+              A bit about me.
             </>
           }
         />

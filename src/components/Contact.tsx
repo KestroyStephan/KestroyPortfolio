@@ -35,15 +35,11 @@ export function Contact() {
       <div aria-hidden className="pointer-events-none absolute -bottom-60 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[var(--color-accent)]/[0.1] blur-[140px]" />
       <div className="relative mx-auto max-w-6xl">
         <Reveal>
-          <p className="eyebrow mb-5 flex items-center gap-3">
-            <span className="text-[var(--color-accent-soft)]">08</span>
-            <span className="h-px w-8 bg-[var(--color-line-strong)]" />
-            Contact
-          </p>
+          <p className="eyebrow mb-5">Contact</p>
           <h2 className="text-[clamp(2.75rem,8vw,6.5rem)] font-medium leading-[0.95]">
-            Let’s build <span className="serif accent-text">something</span>
+            Got a role
             <br />
-            worth using.
+            or a project? <span className="text-[var(--color-accent-soft)]">Let’s talk.</span>
           </h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed">
             Open to Software Engineer, Python backend and applied AI roles: on-site, hybrid or remote. Available immediately.

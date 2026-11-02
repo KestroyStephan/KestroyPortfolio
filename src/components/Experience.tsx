@@ -6,14 +6,14 @@ import { BrowserFrame } from './Showcase';
 const tints = ['#7c8cff', '#f59e0b', '#4ade80'];
 const featureIcons = [Sprout, MapPin, Wallet, Languages, ShieldAlert, Cpu];
 
-// There are no public Govi.ai screens, so this draws the features I built as an illustrated phone.
+// There are no public Govi.ai screens, so this lists the features I built inside a phone outline.
 function FeaturePhone({ name, features, accent }: { name: string; features: string[]; accent: string }) {
   return (
     <div className="absolute left-1/2 top-6 w-[210px] -translate-x-1/2 rounded-t-[28px] border border-b-0 border-white/12 bg-[#0d0f15] p-3 pb-0 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.85)] transition-transform duration-700 group-hover:-translate-y-1.5">
       <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-white/15" />
       <div className="mb-3 flex items-center justify-between px-1">
         <span className="text-xs font-medium text-[var(--color-text)]">{name}</span>
-        <span className="text-[9px] uppercase tracking-wider text-[var(--color-faint)]">Illustration</span>
+        <span className="text-[9px] uppercase tracking-wider text-[var(--color-faint)]">What I built</span>
       </div>
       <ul className="grid grid-cols-2 gap-1.5">
         {features.map((f, i) => {
@@ -39,8 +39,8 @@ export function Experience() {
           eyebrow="Professional experience"
           title={
             <>
-              Shipping production
-              <br className="hidden md:block" /> software <span className="serif">at Xaltrix.</span>
+              Nine months
+              <br className="hidden md:block" /> at Xaltrix.
             </>
           }
           intro="Nine months at Xaltrix: a full-stack internship from January 2026, then Software Engineer from July to the end of September 2026."

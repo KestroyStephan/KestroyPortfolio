@@ -48,18 +48,17 @@ export function Work() {
           eyebrow="Selected work"
           title={
             <>
-              Products I’ve <span className="serif">designed,</span>
-              <br className="hidden md:block" /> built and shipped.
+              Things I’ve built
+              <br className="hidden md:block" /> and shipped.
             </>
           }
-          intro="A mix of production work at Xaltrix and products I led from idea to launch. Each one opens into a full case study below."
+          intro="Some of this was paid work at Xaltrix, some I started myself. Click any of them for the full story further down."
         />
 
         <div className="grid gap-4 md:grid-cols-6">
           <Reveal className="md:col-span-4 md:row-span-2">
             <Tile study={ceylo} className="h-full">
               <div className="relative h-full min-h-[380px] overflow-hidden [perspective:1400px]" style={{ background: `radial-gradient(80% 70% at 50% 20%, ${ceylo.accent}40, #08130f 72%)` }}>
-                <div aria-hidden className="grid-bg absolute inset-0 opacity-40" />
                 <div className="absolute left-1/2 top-[14%] w-[30%] max-w-[200px] transition-transform duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)] [transform:translateX(-150%)_translateZ(-120px)_rotateY(28deg)] group-hover:[transform:translateX(-160%)_translateZ(-100px)_rotateY(22deg)]">
                   <Phone screen={itinerary} />
                 </div>

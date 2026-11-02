@@ -14,10 +14,10 @@ export function Expertise() {
           eyebrow="Technical expertise"
           title={
             <>
-              Full stack, <span className="serif">end to end.</span>
+              What I work with.
             </>
           }
-          intro="From Flutter and React interfaces to FastAPI services, PostgreSQL schemas, local LLMs and the Docker and Azure setup that runs them."
+          intro="Mostly Python and Dart on the back end and in apps, React on the web, PostgreSQL or MongoDB for data, and Docker to run it all."
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

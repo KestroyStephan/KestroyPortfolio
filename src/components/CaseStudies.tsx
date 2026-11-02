@@ -172,11 +172,11 @@ export function CaseStudies() {
           eyebrow="Case studies"
           title={
             <>
-              The problem, the build,
-              <br className="hidden md:block" /> <span className="serif">and what shipped.</span>
+              How the main
+              <br className="hidden md:block" /> projects came together.
             </>
           }
-          intro="What each product does, the part I built, and the stack behind it, shown on real screens from the running apps."
+          intro="What each one does, which parts were mine, and what I built them with. The screenshots are from the real apps."
         />
         <Featured />
         <div className="mt-20 space-y-20 md:mt-28 md:space-y-28">

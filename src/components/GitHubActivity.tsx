@@ -70,7 +70,7 @@ export function GitHubActivity() {
           eyebrow="GitHub activity"
           title={
             <>
-              Recently <span className="serif">pushed.</span>
+              Recent commits.
             </>
           }
           intro="Live from my public GitHub: the repositories I’ve worked on most recently and the languages they use."
