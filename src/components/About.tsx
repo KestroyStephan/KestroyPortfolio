@@ -6,7 +6,7 @@ import desk from '../assets/kestroy-desk.webp';
 const facts = [
   { k: 'Based in', v: profile.location },
   { k: 'Languages', v: 'English · Tamil · Sinhala' },
-  { k: 'Open to', v: 'Remote worldwide · relocation' },
+  { k: 'Open to', v: 'Germany · UK · Remote · relocation' },
   { k: 'Leadership', v: 'Faculty Representative · Head Prefect' },
 ];
 
@@ -27,22 +27,37 @@ export function About() {
 
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal className="lg:col-span-5">
-            <figure className="overflow-hidden rounded-[24px] border border-[var(--color-line)]">
-              <img src={desk} alt="Kestroy Stephan at his desk with a laptop" loading="lazy" width={800} height={899} className="aspect-[8/9] w-full object-cover" />
+            <figure className="group relative">
+              <div aria-hidden className="absolute -inset-3 -translate-x-3 translate-y-3 rounded-[30px] border border-[var(--color-violet)]/25 transition-transform duration-700 group-hover:-translate-x-1.5 group-hover:translate-y-1.5" />
+              <div className="relative overflow-hidden rounded-[24px] ring-1 ring-white/10">
+                <img
+                  src={desk}
+                  alt="Kestroy Stephan at his desk with a laptop"
+                  loading="lazy"
+                  width={800}
+                  height={899}
+                  className="aspect-[8/9] w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
+                />
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)]/70 via-transparent to-transparent" />
+                <figcaption className="absolute bottom-4 left-4 chip border-white/15 bg-black/45 backdrop-blur">Focus · Execute · Succeed</figcaption>
+              </div>
             </figure>
           </Reveal>
 
           <Reveal delay={100} className="lg:col-span-7">
             <div className="space-y-5 text-lg leading-relaxed">
               <p className="text-[var(--color-text)]">
-                I’m a software engineer from Sri Lanka. At Xaltrix I build AgenticHR, an AI hiring platform, across Flutter, FastAPI and PostgreSQL, and I keep client
-                platforms running day to day.
+                I’m a software engineer from Sri Lanka. At Xaltrix I built AgenticHR, an AI hiring platform, across Flutter, FastAPI and PostgreSQL, and kept client
+                platforms running day to day until the end of September 2026.
               </p>
               <p>
                 I’m drawn to problems where AI meets a real workflow: hiring, travel, team reporting. I care about the parts users never see too, such as clean architecture,
                 access control, tests in CI and deployments that stay up.
               </p>
-              <p>I’ve completed my BSc (Hons) in Information Technology and I’m awaiting graduation. I’m open to remote roles worldwide and to relocating.</p>
+              <p>
+                I’ve completed my BSc (Hons) in Information Technology and I’m awaiting graduation. Next, I’m looking for a software engineering role focused on Python
+                backend and applied AI, in Germany, the UK or remote, and I’m ready to relocate.
+              </p>
             </div>
 
             <dl className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-[var(--color-line)] bg-[var(--color-line)] sm:grid-cols-2">
