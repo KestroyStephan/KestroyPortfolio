@@ -30,6 +30,10 @@ import fakeMessage from './assets/projects/fake-message.webp';
 import wineQuality from './assets/projects/wine-quality.webp';
 import tripPlanner from './assets/projects/trip-planner.webp';
 import teaInventory from './assets/projects/tea-inventory.webp';
+import videoGenerator from './assets/projects/video-generator.webp';
+import aerosafe from './assets/projects/aerosafe.webp';
+import invoiceGenerator from './assets/projects/invoice-generator.webp';
+import aurafit from './assets/projects/aurafit.webp';
 
 export const profile = {
   name: 'Kestroy Stephan',
@@ -40,6 +44,9 @@ export const profile = {
   github: 'https://github.com/KestroyStephan',
   githubUser: 'KestroyStephan',
   linkedin: 'https://www.linkedin.com/in/kestroy-stephan/',
+  // Leave empty to hide the link everywhere it appears.
+  researchgate: '',
+  medium: '',
   location: 'Sri Lanka · GMT+5:30',
   status: 'Open to work · Available immediately',
   focus: 'Software Engineering · Python Backend · Applied AI',
@@ -258,14 +265,56 @@ export const projectLibrary: LibraryProject[] = [
   { name: 'Weekly Report Generator', kind: 'Team dashboard', text: 'Role-aware weekly reports with approvals, analytics and a local Llama 3 RAG assistant.', categories: ['Full-stack', 'Automation', 'AI & ML'], image: weeklyLogin, caseStudy: 'weekly-report', github: 'https://github.com/KestroyStephan/Weekly-Report-Generator-Team-Dashboard', live: 'https://weekly-report-generator-team-dashbo-psi.vercel.app', accent: '#2dd4bf' },
   { name: 'Surprise Heaven', kind: 'MERN gifting marketplace', text: 'Cake and gift studios, a surprise-box builder, payments and live rider tracking.', categories: ['Full-stack', 'Backend & APIs'], image: shHome, caseStudy: 'surprise-heaven', github: 'https://github.com/KestroyStephan/Gift_Heaven', accent: '#f472b6' },
   { name: 'GiftHeaven', kind: 'E-commerce · PHP → MERN', text: 'Gift store built on LAMP, then rebuilt as separate MERN storefront, admin and API apps.', categories: ['Full-stack', 'Frontend'], image: ghHome, caseStudy: 'giftheaven', github: 'https://github.com/KestroyStephan/GiftHeaven-Website', accent: '#fbbf24' },
+  { name: 'AI Video Studio', kind: 'Local text-to-video', text: 'CogVideoX and Wan2.1 on consumer GPUs: a FastAPI job queue with VRAM offloading and live progress over WebSockets.', categories: ['AI & ML', 'Backend & APIs', 'Full-stack'], image: videoGenerator, imageKind: 'data', github: 'https://github.com/KestroyStephan/Video-Generator', accent: '#818cf8' },
+  { name: 'AeroSafe', kind: 'Travel safety dashboard', text: 'Live safety scores and government advisories for any country, with IP-based origin detection and Google sign-in.', categories: ['Full-stack', 'Frontend', 'Backend & APIs'], image: aerosafe, github: 'https://github.com/KestroyStephan/Predictive-Travel-Safety-Dashboard', accent: '#c026d3' },
   { name: 'Fake Message Detection', kind: 'NLP classifier', text: 'TF-IDF with Logistic Regression and Naive Bayes; 98.8% test accuracy on news articles.', categories: ['AI & ML'], image: fakeMessage, imageKind: 'data', github: 'https://github.com/KestroyStephan/Fake-Message-Detection', accent: '#f87171' },
   { name: 'House Price API', kind: 'ML service', text: 'Random Forest regressor served through FastAPI with predict and model-info endpoints.', categories: ['AI & ML', 'Backend & APIs'], image: housePrice, imageKind: 'data', github: 'https://github.com/KestroyStephan/House-Price-Prediction', accent: '#45e3f5' },
   { name: 'Wine Quality', kind: 'ML app', text: 'EDA, feature selection and a Random Forest classifier (92% test accuracy) behind a Streamlit app.', categories: ['AI & ML'], image: wineQuality, imageKind: 'data', github: 'https://github.com/KestroyStephan/wine-quality-prediction', accent: '#c084fc' },
   { name: 'AI Trip Planner', kind: 'AI web app', text: 'Chat-driven trip builder that collects budget, group size and days, then generates a plan.', categories: ['AI & ML', 'Frontend', 'Full-stack'], image: tripPlanner, imageKind: 'illustration', github: 'https://github.com/KestroyStephan/AI-Trip-Planner', accent: '#60a5fa' },
   { name: 'Shoppee', kind: 'MERN storefront', text: 'Fashion storefront with category pages, cart and an admin for products.', categories: ['Frontend', 'Full-stack'], image: shoppeeHome, github: 'https://github.com/KestroyStephan/website-shoppee', live: 'https://website-shoppee.vercel.app', accent: '#fb923c' },
+  { name: 'Invoice Generator', kind: 'React app', text: 'Invoices and quotations with live totals, editable line items and PDF export.', categories: ['Frontend'], image: invoiceGenerator, github: 'https://github.com/KestroyStephan/Invoice-Generator', accent: '#3b82f6' },
+  { name: 'AuraFit', kind: 'Android app', text: 'Fitness app with a step counter and analytics, live workouts, workout history and a meal planner on Firebase.', categories: ['Mobile'], image: aurafit, imageKind: 'illustration', github: 'https://github.com/KestroyStephan/AuraFit', accent: '#fb7185' },
   { name: 'Weather App', kind: 'Web app', text: 'Weather for five world cities from the OpenWeatherMap API.', categories: ['Frontend'], image: weatherApp, github: 'https://github.com/KestroyStephan/Weather-Web-Application', accent: '#38bdf8' },
   { name: 'Tea Inventory System', kind: 'Desktop app', text: 'Java Swing and MySQL app for a tea factory’s products, inventory, sales and users.', categories: ['Backend & APIs'], image: teaInventory, imageKind: 'illustration', github: 'https://github.com/KestroyStephan/ITBIN-2211-0207', accent: '#4ade80' },
 ];
+
+export type Publication = {
+  title: string;
+  venue: string;
+  type: string;
+  authors: string;
+  summary: string;
+  tags: string[];
+  href?: string;
+  related?: string;
+};
+
+// Extended abstracts from the HIRS 2025 symposium, both reviewed and accepted.
+export const publications: Publication[] = [
+  {
+    title: 'AI-Powered Mobile Guide for Sustainable Eco-Cultural Tourism in Sri Lanka: Development and User Assessment',
+    venue: 'HIRS 2025',
+    type: 'Extended abstract · Published',
+    authors: 'Kestroy S., Sharoobini R. A., Kishnapriyan N., Isuru Samarappulige',
+    summary: 'The research behind CEYLO: an AI mobile guide that plans eco-cultural trips, connects travellers with local guides and vendors, and was assessed with real users.',
+    tags: ['Applied AI', 'Mobile', 'Sustainable tourism'],
+    href: '',
+    related: 'cs-ceylo',
+  },
+  {
+    title: 'Real-Time Fake News Detection with Explainable and Reproducible ML Models',
+    venue: 'HIRS 2025',
+    type: 'Extended abstract · Published',
+    authors: 'Kestroy S., Sanju A. V., Kishnapriyan, Jineshini S., Herath H.M.D.S.',
+    summary: 'Machine-learning models that classify news as fake or real in real time, built so their predictions can be explained and their results reproduced.',
+    tags: ['NLP', 'Machine learning', 'Explainability'],
+    href: '',
+    related: 'projects',
+  },
+];
+
+// Medium articles. Add entries as { title, href, date, summary }.
+export const articles: { title: string; href: string; date?: string; summary?: string }[] = [];
 
 export const expertise = [
   { group: 'Languages', items: ['Python', 'Dart', 'Java', 'JavaScript', 'PHP', 'HTML', 'CSS', 'SQL'] },
