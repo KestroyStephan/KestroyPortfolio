@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { ArrowUpRight, Github, Globe } from 'lucide-react';
-import { categories, projectLibrary, type Category } from '../data';
+import { caseStudies, categories, ceylo, projectLibrary, type Category } from '../data';
 import { Reveal, Tilt } from './effects';
+
+const studies = [ceylo, ...caseStudies];
 
 // Every project as a card, filterable by area. Cards re-deal with a short stagger when the filter changes.
 export function ProjectLibrary() {
@@ -36,12 +38,12 @@ export function ProjectLibrary() {
                 onClick={() => setFilter(c)}
                 className={`relative shrink-0 rounded-full border px-4 py-2 text-sm transition-all duration-300 ${
                   on
-                    ? 'border-transparent bg-[var(--color-text)] font-medium text-[var(--color-bg)]'
+                    ? 'border-transparent bg-[var(--color-accent)] font-medium text-white'
                     : 'border-[var(--color-line)] hover:border-[var(--color-line-strong)] hover:text-[var(--color-text)]'
                 }`}
               >
                 {c}
-                <span className={`ml-1.5 font-mono text-[11px] ${on ? 'text-[var(--color-bg)]/60' : 'text-[var(--color-faint)]'}`}>
+                <span className={`ml-1.5 font-mono text-[11px] ${on ? 'text-white/70' : 'text-[var(--color-faint)]'}`}>
                   {c === 'All' ? projectLibrary.length : count(c)}
                 </span>
               </button>
@@ -51,10 +53,14 @@ export function ProjectLibrary() {
       </Reveal>
 
       <ul key={filter} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {shown.map((p, i) => (
+        {shown.map((p, i) => {
+          const study = studies.find((c) => c.slug === p.caseStudy);
+          const tech = p.tech ?? study?.stack.slice(0, 5) ?? [];
+          const features = study?.features.slice(0, 3) ?? [];
+          return (
           <li key={p.name} className="animate-[deal_.6s_cubic-bezier(0.2,0.7,0.2,1)_both]" style={{ animationDelay: `${i * 55}ms` }}>
             <Tilt max={5} className="h-full rounded-[20px]">
-              <article className="card group flex h-full flex-col overflow-hidden">
+              <article className="card card-hover group flex h-full flex-col overflow-hidden">
                 <a
                   href={p.caseStudy ? `#cs-${p.caseStudy}` : p.github}
                   {...(p.caseStudy ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
@@ -73,15 +79,28 @@ export function ProjectLibrary() {
                 </a>
                 <div className="flex flex-1 flex-col p-5">
                   <p className="eyebrow mb-2">{p.kind}</p>
-                  <h4 className="text-lg font-medium">{p.name}</h4>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed">{p.text}</p>
-                  <ul className="mt-4 flex flex-wrap gap-1.5">
-                    {p.categories.map((c) => (
-                      <li key={c} className={`chip !text-[11px] ${c === filter ? 'border-[var(--color-accent-soft)]/50 text-[var(--color-text)]' : ''}`}>
-                        {c}
-                      </li>
-                    ))}
-                  </ul>
+                  <h4 className="text-lg font-semibold">{p.name}</h4>
+                  <p className="mt-2 text-sm leading-relaxed">{p.text}</p>
+                  {features.length > 0 && (
+                    <ul className="mt-4 space-y-1.5 text-[13px] leading-snug" aria-label={`${p.name} key features`}>
+                      {features.map((f) => (
+                        <li key={f} className="flex gap-2">
+                          <span aria-hidden className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-[var(--color-cyan)]" />
+                          <span className="line-clamp-2">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="flex-1" />
+                  {tech.length > 0 && (
+                    <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={`${p.name} technologies`}>
+                      {tech.map((t) => (
+                        <li key={t} className="chip !border-[var(--color-accent)]/25 !bg-[var(--color-accent)]/[0.07] !text-[11px]">
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <div className="mt-5 flex gap-4 border-t border-[var(--color-line)] pt-4 text-sm">
                     {p.caseStudy && (
                       <a href={`#cs-${p.caseStudy}`} className="inline-flex items-center gap-1 text-[var(--color-text)] transition-colors hover:text-[var(--color-accent-soft)]">
@@ -103,7 +122,8 @@ export function ProjectLibrary() {
               </article>
             </Tilt>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );
