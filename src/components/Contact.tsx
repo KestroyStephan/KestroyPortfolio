@@ -1,18 +1,43 @@
 import { useState } from 'react';
-import { ArrowUpRight, BookOpen, Github, Linkedin, Mail, PenLine, Phone, Send } from 'lucide-react';
+import { ArrowUpRight, BookOpen, CheckCircle2, Github, Linkedin, Loader2, Mail, PenLine, Phone, Send } from 'lucide-react';
 import { profile } from '../data';
 import { Reveal } from './effects';
 
 export function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  // There is no backend, so the form opens the visitor's email app with everything pre-filled.
-  const handleSubmit = (e: React.FormEvent) => {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+  // Messages go to my inbox through FormSubmit, so the visitor stays on the page.
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Opportunity for Kestroy — from ${formData.name}`);
-    const body = encodeURIComponent(`${formData.message}\n\n— ${formData.name} (${formData.email})`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    if (new FormData(e.currentTarget).get('_honey')) return;
+    setStatus('sending');
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Portfolio message from ${formData.name}`,
+          _replyto: formData.email,
+          _template: 'table',
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) !== 'true') throw new Error('send failed');
+      setStatus('sent');
+      setFormData({ name: '', email: '', message: '' });
+    } catch {
+      setStatus('error');
+    }
   };
+
+  const mailtoFallback = `mailto:${profile.email}?subject=${encodeURIComponent(`Portfolio message from ${formData.name}`)}&body=${encodeURIComponent(
+    `${formData.message}\n\n— ${formData.name} (${formData.email})`,
+  )}`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,7 +80,18 @@ export function Contact() {
 
         <div className="mt-16 grid gap-4 lg:grid-cols-[1.3fr_1fr] [&>*]:min-w-0">
           <Reveal>
+            {status === 'sent' ? (
+              <div className="card flex h-full flex-col items-start justify-center p-6 md:p-8" role="status">
+                <CheckCircle2 className="h-8 w-8 text-[var(--color-ok)]" />
+                <h3 className="mt-5 text-2xl font-semibold">Thanks, your message is on its way.</h3>
+                <p className="mt-2 text-[15px] leading-relaxed">I read every message and usually reply within a day or two.</p>
+                <button type="button" onClick={() => setStatus('idle')} className="btn btn-ghost mt-6">
+                  Send another message
+                </button>
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} className="card p-6 md:p-8">
+              <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block text-sm">
                   Name
@@ -71,12 +107,33 @@ export function Contact() {
                 <textarea name="message" rows={5} required value={formData.message} onChange={handleChange} className={`${input} resize-none`} placeholder="Tell me about the role or project…" />
               </label>
               <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <p className="text-xs text-[var(--color-faint)]">Opens your email app with the message ready to send.</p>
-                <button type="submit" className="btn btn-primary">
-                  Send message <Send className="h-4 w-4" />
+                <p className="text-xs text-[var(--color-faint)]" aria-live="polite">
+                  {status === 'error' ? (
+                    <span className="text-[#f87171]">
+                      Couldn’t send just now. Please try again or{' '}
+                      <a href={mailtoFallback} className="underline underline-offset-2 hover:text-[var(--color-text)]">
+                        email me directly
+                      </a>
+                      .
+                    </span>
+                  ) : (
+                    'Goes straight to my inbox. I usually reply within a day or two.'
+                  )}
+                </p>
+                <button type="submit" disabled={status === 'sending'} className="btn btn-primary disabled:cursor-wait disabled:opacity-70">
+                  {status === 'sending' ? (
+                    <>
+                      Sending <Loader2 className="h-4 w-4 animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Send message <Send className="h-4 w-4" />
+                    </>
+                  )}
                 </button>
               </div>
             </form>
+            )}
           </Reveal>
 
           <Reveal delay={100} className="flex flex-col gap-4">
