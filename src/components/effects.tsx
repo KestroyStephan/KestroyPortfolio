@@ -1,27 +1,17 @@
 import { useEffect, useRef, type ReactNode, type PointerEvent } from 'react';
+import { m } from 'framer-motion';
 
-// Fades children up when they scroll into view.
-export function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }: { children: ReactNode; className?: string; delay?: number; as?: 'div' | 'li' }) {
-  const ref = useRef<HTMLDivElement & HTMLLIElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('is-visible');
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+// Fades children up once when they scroll into view.
+export function Reveal({ children, className = '', delay = 0, as = 'div' }: { children: ReactNode; className?: string; delay?: number; as?: 'div' | 'li' }) {
+  const Tag = as === 'li' ? m.li : m.div;
   return (
-    <Tag ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <Tag
+      className={className}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '0px 0px -40px 0px' }}
+      transition={{ duration: 0.6, delay: delay / 1000, ease: [0.2, 0.7, 0.2, 1] }}
+    >
       {children}
     </Tag>
   );
@@ -55,7 +45,7 @@ export function Tilt({ children, className = '', max = 6 }: { children: ReactNod
   );
 }
 
-// Thin gradient bar along the top of the window showing how far down the page you are.
+// Thin bar along the top of the window showing how far down the page you are.
 export function ScrollProgress() {
   const bar = useRef<HTMLDivElement>(null);
   useEffect(() => {
