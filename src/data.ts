@@ -52,7 +52,7 @@ export const profile = {
   status: 'Open to work · Available immediately',
   focus: 'Software Engineering · Python Backend · Applied AI',
   // Put a PDF at public/Kestroy-Stephan-CV.pdf and set this to '/Kestroy-Stephan-CV.pdf' to turn on the Download CV button.
-  cv: '',
+  cv: '/Kestroy-Stephan-CV.pdf',
 };
 
 export const heroStats = [
