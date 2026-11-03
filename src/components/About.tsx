@@ -1,5 +1,4 @@
-import { GraduationCap } from 'lucide-react';
-import { certifications, education, profile } from '../data';
+import { profile } from '../data';
 import { Reveal, SectionHeading } from './effects';
 import desk from '../assets/kestroy-desk.webp';
 
@@ -68,29 +67,6 @@ export function About() {
               ))}
             </dl>
 
-            <div className="mt-10">
-              <p className="eyebrow mb-4">Education</p>
-              <div className="flex gap-4 border-b border-[var(--color-line)] pb-6">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-[var(--color-line)] text-[var(--color-accent-soft)]">
-                  <GraduationCap className="h-[18px] w-[18px]" />
-                </span>
-                <div>
-                  <p className="font-medium text-[var(--color-text)]">{education.degree}</p>
-                  <p className="text-[15px]">
-                    {education.school} · {education.period}
-                  </p>
-                  <p className="mt-1 text-sm text-[var(--color-ok)]">{education.status}</p>
-                </div>
-              </div>
-              <ul className="mt-2 divide-y divide-[var(--color-line)]">
-                {certifications.map((c) => (
-                  <li key={c.title} className="flex flex-col justify-between gap-1 py-3.5 text-[15px] sm:flex-row sm:gap-6">
-                    <span className="text-[var(--color-text)]/85">{c.title}</span>
-                    <span className="text-sm text-[var(--color-faint)] sm:text-right">{c.issuer}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </Reveal>
         </div>
       </div>
