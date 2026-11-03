@@ -1,13 +1,14 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Logo } from './Logo';
 
 const links = [
-  { id: 'work', label: 'Work' },
-  { id: 'case-studies', label: 'Case studies' },
-  { id: 'expertise', label: 'Expertise' },
-  { id: 'experience', label: 'Experience' },
   { id: 'about', label: 'About' },
+  { id: 'expertise', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'work', label: 'Projects' },
   { id: 'research', label: 'Research' },
+  { id: 'education', label: 'Education' },
 ];
 
 export function Navbar() {
@@ -53,18 +54,15 @@ export function Navbar() {
       <nav
         aria-label="Primary"
         className={`mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full border px-3 pl-5 transition-colors duration-300 ${
-          scrolled || open ? 'border-[var(--color-line)] bg-[var(--color-bg)]/80 backdrop-blur-xl' : 'border-transparent'
+          scrolled || open ? 'border-[var(--color-line)] bg-[#0a1120]/75 backdrop-blur-xl' : 'border-transparent'
         }`}
       >
-        <a href="#top" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[var(--color-text)]" onClick={() => setOpen(false)}>
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--color-text)] text-[11px] font-bold text-[var(--color-bg)]">KS</span>
-          Kestroy Stephan
-        </a>
+        <Logo onClick={() => setOpen(false)} />
 
         <ul ref={listRef} className="relative hidden items-center lg:flex">
           <span
             aria-hidden
-            className="absolute inset-y-0 rounded-full bg-white/[0.06] transition-all duration-300 ease-out"
+            className="absolute inset-y-0 rounded-full bg-[var(--color-accent)]/[0.14] transition-all duration-300 ease-out"
             style={{ left: pill.left, width: pill.width, opacity: pill.width ? 1 : 0 }}
           />
           {links.map((l) => (

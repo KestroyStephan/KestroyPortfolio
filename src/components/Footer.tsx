@@ -1,3 +1,4 @@
+import { LogoMark } from './Logo';
 import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
 import { profile } from '../data';
 
@@ -18,9 +19,9 @@ export function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 border-t border-[var(--color-line)] pt-12 md:grid-cols-[1.4fr_1fr_auto]">
           <div>
-            <p className="flex items-center gap-2.5 text-[var(--color-text)]">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--color-text)] text-xs font-bold text-[var(--color-bg)]">KS</span>
-              <span className="text-lg font-medium">Kestroy Stephan</span>
+            <p className="flex items-center gap-3 text-[var(--color-text)]">
+              <LogoMark withTag className="h-8 w-auto" />
+              <span className="font-display text-lg font-semibold">Kestroy Stephan</span>
             </p>
             <p className="mt-4 max-w-sm text-[15px] leading-relaxed">Software Engineer building full-stack products and AI automation. Based in Sri Lanka, working with teams anywhere.</p>
             <div className="mt-6 flex gap-2">
