@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowDown, ArrowRight, Download, Github, Linkedin, Mail, Send } from 'lucide-react';
 import { heroStats, profile } from '../data';
 import { Tilt } from './effects';
 import portrait from '../assets/kestroy-portrait.webp';
@@ -32,7 +32,7 @@ export function Hero() {
             <span className="status-dot shrink-0" /> {profile.status}
           </p>
 
-          <h1 className="animate-[fadeUp_.8s_.08s_ease-out_both] text-[clamp(2.75rem,7.2vw,5.75rem)] font-medium leading-[0.98]">
+          <h1 className="animate-[fadeUp_.8s_.08s_ease-out_both] text-[clamp(2.75rem,7.2vw,5.75rem)] font-semibold leading-[0.98]">
             Hi, I’m Kestroy.
             <br />
             <span className="text-[var(--color-accent-soft)]">I build software</span> that ships.
@@ -49,7 +49,7 @@ export function Hero() {
 
           <div className="mt-9 flex animate-[fadeUp_.8s_.3s_ease-out_both] flex-wrap items-center gap-3">
             <a href="#work" className="btn btn-primary">
-              View my work <ArrowRight className="h-4 w-4" />
+              View projects <ArrowRight className="h-4 w-4" />
             </a>
             {profile.cv ? (
               <a href={profile.cv} download className="btn btn-ghost">
@@ -60,6 +60,9 @@ export function Hero() {
                 Request CV <Mail className="h-4 w-4" />
               </a>
             )}
+            <a href="#contact" className="btn btn-ghost">
+              Contact me <Send className="h-4 w-4" />
+            </a>
             <span className="mx-1 hidden h-6 w-px bg-[var(--color-line-strong)] sm:block" />
             <a href={profile.github} target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="GitHub profile">
               <Github className="h-4 w-4" />
@@ -67,15 +70,12 @@ export function Hero() {
             <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="icon-btn" aria-label="LinkedIn profile">
               <Linkedin className="h-4 w-4" />
             </a>
-            <a href={`mailto:${profile.email}`} className="icon-btn" aria-label={`Email ${profile.email}`}>
-              <Mail className="h-4 w-4" />
-            </a>
           </div>
         </div>
 
         <div className="group relative mx-auto w-full max-w-[420px] animate-[fadeUp_1s_.2s_ease-out_both] self-start lg:col-span-5 lg:mr-0">
           {/* accent backlight and offset outline give the portrait depth */}
-          <div aria-hidden className="absolute inset-x-8 -bottom-6 top-16 rounded-full bg-[var(--color-accent)]/25 blur-[70px]" />
+          <div aria-hidden className="absolute inset-x-8 -bottom-6 top-16 rounded-full bg-[var(--color-accent)]/15 blur-[80px]" />
           <div aria-hidden className="absolute -inset-3 translate-x-3 translate-y-3 rounded-[32px] border border-[var(--color-accent-soft)]/25 transition-transform duration-700 group-hover:translate-x-1.5 group-hover:translate-y-1.5" />
           <Tilt max={5} className="rounded-[26px]">
           <figure className="relative overflow-hidden rounded-[26px] bg-[var(--color-surface)] ring-1 ring-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.9)]">
@@ -116,7 +116,7 @@ export function Hero() {
         ))}
       </dl>
 
-      <a href="#work" className="relative mx-auto mt-10 hidden w-fit items-center gap-2 text-xs md:flex" aria-label="Scroll to selected work">
+      <a href="#about" className="relative mx-auto mt-10 hidden w-fit items-center gap-2 text-xs md:flex" aria-label="Scroll to about me">
         <ArrowDown className="h-3.5 w-3.5" /> Scroll
       </a>
     </section>
