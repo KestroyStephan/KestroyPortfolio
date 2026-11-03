@@ -2,21 +2,22 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-bg: #07080e;
-  --color-surface: #0d0f18;
-  --color-surface-2: #141725;
-  --color-line: rgb(255 255 255 / 0.07);
-  --color-line-strong: rgb(255 255 255 / 0.14);
-  --color-text: #ecedf3;
-  --color-muted: #8b91a3;
-  --color-faint: #5d6274;
-  --color-accent: #7c6cff;
-  --color-accent-soft: #a99dff;
-  --color-violet: #a78bfa;
-  --color-cyan: #45e3f5;
+  --color-bg: #070b14;
+  --color-surface: #0c1424;
+  --color-surface-2: #111b2f;
+  --color-line: rgb(148 178 230 / 0.09);
+  --color-line-strong: rgb(148 178 230 / 0.18);
+  --color-text: #eef3fb;
+  --color-muted: #94a0b6;
+  --color-faint: #66728a;
+  --color-accent: #1677ff;
+  --color-accent-soft: #5aa9ff;
+  --color-violet: #7aa2ff;
+  --color-cyan: #00d4ff;
   --color-ok: #34d399;
 
   --animate-marquee: marquee 50s linear infinite;
@@ -72,15 +73,32 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: var(--color-bg);
+  background:
+    radial-gradient(1000px 600px at 85% -10%, rgb(22 119 255 / 0.14), transparent 60%),
+    radial-gradient(800px 500px at -10% 40%, rgb(0 212 255 / 0.06), transparent 60%),
+    var(--color-bg);
+  background-attachment: fixed;
   color: var(--color-muted);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4 {
+  font-family: var(--font-display);
   color: var(--color-text);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
+}
+
+/* faint dotted grid behind the whole page, fading toward the bottom */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgb(148 178 230 / 0.13) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 80%);
 }
 
 ::selection {
@@ -153,12 +171,17 @@ h1, h2, h3, h4 {
   .tilt.is-tilting .tilt-glare { opacity: 1; }
   .depth { transform: translateZ(40px); }
 
+  /* dark glass panel */
   .card {
     position: relative;
-    background: var(--color-surface);
+    background: linear-gradient(180deg, rgb(17 27 47 / 0.72), rgb(10 17 31 / 0.72));
     border: 1px solid var(--color-line);
     border-radius: 20px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: border-color 0.3s ease;
   }
+  .card-hover:hover { border-color: rgb(22 119 255 / 0.4); }
 
   /* card with a hairline highlight that follows the pointer (set --mx/--my) */
   .card-glow::before {
@@ -167,7 +190,7 @@ h1, h2, h3, h4 {
     inset: -1px;
     border-radius: inherit;
     padding: 1px;
-    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgb(169 157 255 / 0.6), transparent 60%);
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgb(0 212 255 / 0.5), transparent 60%);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -203,8 +226,8 @@ h1, h2, h3, h4 {
     transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
   .btn:hover { transform: translateY(-1px); }
-  .btn-primary { background: var(--color-text); color: var(--color-bg); }
-  .btn-primary:hover { background: #fff; }
+  .btn-primary { background: var(--color-accent); color: #fff; }
+  .btn-primary:hover { background: #2f88ff; }
   .btn-ghost { border: 1px solid var(--color-line-strong); color: var(--color-text); }
   .btn-ghost:hover { border-color: var(--color-accent-soft); color: #fff; }
 
@@ -237,24 +260,10 @@ h1, h2, h3, h4 {
     mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
   }
 
-  /* content rises and tips forward into place as it scrolls in */
-  .reveal {
-    opacity: 0;
-    transform: perspective(1200px) translateY(32px) rotateX(9deg);
-    transform-origin: 50% 100%;
-    filter: blur(4px);
-    transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.9s ease;
-  }
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
   .tilt { transform: none !important; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }

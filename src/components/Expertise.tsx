@@ -11,7 +11,7 @@ export function Expertise() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           index="03"
-          eyebrow="Technical expertise"
+          eyebrow="Technical skills"
           title={
             <>
               What I work with.
@@ -25,7 +25,7 @@ export function Expertise() {
             const Icon = icons[i];
             return (
               <Reveal key={g.group} delay={(i % 3) * 70}>
-                <div onPointerMove={trackGlow} className="card card-glow h-full p-6">
+                <div onPointerMove={trackGlow} className="card card-glow card-hover h-full p-6">
                   <div className="mb-8 flex items-center justify-between">
                     <span className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--color-line)] bg-[var(--color-surface-2)] text-[var(--color-accent-soft)]">
                       <Icon className="h-[18px] w-[18px]" />
